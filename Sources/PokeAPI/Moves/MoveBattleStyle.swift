@@ -4,5 +4,6 @@ public struct MoveBattleStyle : NamedResource {
 
 	public let id : Int
 	public let name : String
+	public let names : Set<Name>
 }
 

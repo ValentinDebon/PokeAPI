@@ -4,9 +4,9 @@ Swift binding for the PokeAPI.
 
 ## Progress
 
-- [ ] PokeAPI Proxy to handle static and online clients
-- [ ] PokeAPI Proxy static content Delegate
-- [ ] PokeAPI Proxy online content Delegate
+- [x] PokeAPI Proxy
+- [x] PokeAPI static content
+- [ ] PokeAPI online content
 
 - [x] Berries
 - [x] Contests
@@ -14,9 +14,9 @@ Swift binding for the PokeAPI.
 - [x] Evolution
 - [x] Games
 - [x] Items
-- [ ] Locations
-- [ ] Machines
-- [ ] Moves
-- [ ] Pokemon
+- [x] Locations
+- [x] Machines
+- [x] Moves
+- [x] Pokemon
 - [x] Utility
 

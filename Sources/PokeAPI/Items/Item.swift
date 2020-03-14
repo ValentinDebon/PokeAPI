@@ -1,5 +1,23 @@
 
 public struct Item : NamedResource {
+	public enum CodingKeys : String, CodingKey {
+		case id
+		case name
+		case cost
+		case flingPower        = "fling_power"
+		case flingEffect       = "fling_effect"
+		case attributes
+		case category
+		case effectEntries     = "effect_entries"
+		case flavorTextEntries = "flavor_text_entries"
+		case gameIndices       = "game_indices"
+		case names
+		case sprites
+		case heldByPokemon     = "held_by_pokemon"
+		case babyTriggerFor    = "baby_trigger_for"
+		case machines
+	}
+
 	public static let endpoint = "item"
 
 	public let id : Int
@@ -24,6 +42,11 @@ public struct ItemSprites : Codable {
 }
 
 public struct ItemHolderPokemon : Hashable, Codable {
+	public enum CodingKeys : String, CodingKey {
+		case pokemon
+		case versionDetails = "version_details"
+	}
+
 	public let pokemon : String
 	public let versionDetails : Set<ItemHolderPokemonVersionDetail>
 }

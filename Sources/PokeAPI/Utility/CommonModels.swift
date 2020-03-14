@@ -66,7 +66,7 @@ public struct Name : Localized {
 	public let language : NamedAPIResource<Language>
 }
 
-public struct NamedAPIResource<T> : Hashable, Codable {
+public struct NamedAPIResource<R : NamedResource> : Hashable, Codable {
 	public let name : String
 	public let url : String
 
