@@ -16,10 +16,10 @@ public struct Nature : NamedResource {
 
 	public let id : Int
 	public let name : String
-	public let decreasedStat : NamedAPIResource<Stat>
-	public let increasedStat : NamedAPIResource<Stat>
-	public let hatesFlavor : NamedAPIResource<BerryFlavor>
-	public let likesFlavor : NamedAPIResource<BerryFlavor>
+	public let decreasedStat : NamedAPIResource<Stat>?
+	public let increasedStat : NamedAPIResource<Stat>?
+	public let hatesFlavor : NamedAPIResource<BerryFlavor>?
+	public let likesFlavor : NamedAPIResource<BerryFlavor>?
 	public let pokeathlonStatChanges : Set<NatureStatChange>
 	public let moveBattleStylePreferences : Set<MoveBattleStylePreference>
 	public let names : Set<Name>

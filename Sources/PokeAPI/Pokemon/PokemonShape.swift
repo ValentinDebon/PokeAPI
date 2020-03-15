@@ -19,7 +19,7 @@ public struct PokemonShape : NamedResource {
 
 public struct AwesomeName : Localized {
 	public enum CodingKeys : String, CodingKey {
-		case awesomeName = "awesome_names"
+		case awesomeName = "awesome_name"
 		case language
 	}
 

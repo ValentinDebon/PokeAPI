@@ -20,8 +20,8 @@ public struct Stat : NamedResource {
 	public let isBattleOnly : Bool
 	public let affectingMoves : MoveStatAffectSets
 	public let affectingNatures : NatureStatAffectSets
-	public let characteristics : APIResource<Characteristic>
-	public let moveDamageClass : NamedAPIResource<MoveDamageClass>
+	public let characteristics : Set<APIResource<Characteristic>>
+	public let moveDamageClass : NamedAPIResource<MoveDamageClass>?
 	public let names : Set<Name>
 }
 

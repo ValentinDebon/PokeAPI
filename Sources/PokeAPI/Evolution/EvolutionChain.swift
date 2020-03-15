@@ -9,7 +9,7 @@ public struct EvolutionChain : Resource {
 	public static let endpoint = "evolution-chain"
 
 	public let id : Int
-	public let babyTriggerItem : NamedAPIResource<Item>
+	public let babyTriggerItem : NamedAPIResource<Item>?
 	public let chain : ChainLink
 }
 
@@ -49,23 +49,23 @@ public struct EvolutionDetail : Hashable, Codable {
 		case turnUpsideDown        = "turn_upside_down"
 	}
 
-	public let item : NamedAPIResource<Item>
+	public let item : NamedAPIResource<Item>?
 	public let trigger : NamedAPIResource<EvolutionTrigger>
-	public let gender : Int
-	public let heldItem : NamedAPIResource<Item>
-	public let knownMove : NamedAPIResource<Move>
-	public let knownMoveType : NamedAPIResource<Type>
-	public let location : NamedAPIResource<Location>
-	public let minLevel : Int
-	public let minHappiness : Int
-	public let minBeauty : Int
-	public let minAffection : Int
+	public let gender : Int?
+	public let heldItem : NamedAPIResource<Item>?
+	public let knownMove : NamedAPIResource<Move>?
+	public let knownMoveType : NamedAPIResource<Type>?
+	public let location : NamedAPIResource<Location>?
+	public let minLevel : Int?
+	public let minHappiness : Int?
+	public let minBeauty : Int?
+	public let minAffection : Int?
 	public let needsOverworldRain : Bool
-	public let partySpecies : NamedAPIResource<PokemonSpecies>
-	public let partyType : NamedAPIResource<Type>
-	public let relativePhysicalStats : Int
+	public let partySpecies : NamedAPIResource<PokemonSpecies>?
+	public let partyType : NamedAPIResource<Type>?
+	public let relativePhysicalStats : Int?
 	public let timeOfDay : String
-	public let tradeSpecies : NamedAPIResource<PokemonSpecies>
+	public let tradeSpecies : NamedAPIResource<PokemonSpecies>?
 	public let turnUpsideDown : Bool
 }
 

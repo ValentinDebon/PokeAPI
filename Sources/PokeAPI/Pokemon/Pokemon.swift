@@ -33,7 +33,7 @@ public struct Pokemon : NamedResource {
 	public let forms : Set<NamedAPIResource<PokemonForm>>
 	public let gameIndices : Set<VersionGameIndex>
 	public let heldItems : Set<PokemonHeldItem>
-	public let locationAreaEncounters : Set<LocationAreaEncounter>
+	public let locationAreaEncounters : String
 	public let moves : Set<PokemonMove>
 	public let sprites : PokemonSprites
 	public let species : NamedAPIResource<PokemonSpecies>
@@ -121,12 +121,12 @@ public struct PokemonSprites : Codable {
 
 	public let frontDefault : String
 	public let frontShiny : String
-	public let frontFemale : String
-	public let frontShinyFemale : String
+	public let frontFemale : String?
+	public let frontShinyFemale : String?
 	public let backDefault : String
 	public let backShiny : String
-	public let backFemale : String
-	public let backShinyFemale : String
+	public let backFemale : String?
+	public let backShinyFemale : String?
 }
 
 public struct LocationAreaEncounter : Hashable, Codable {

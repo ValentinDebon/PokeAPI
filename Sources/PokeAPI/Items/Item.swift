@@ -23,9 +23,9 @@ public struct Item : NamedResource {
 	public let id : Int
 	public let name : String
 	public let cost : Int
-	public let flingPower : Int
-	public let flingEffect : NamedAPIResource<ItemFlingEffect>
-	public let attributes : NamedAPIResource<ItemAttribute>
+	public let flingPower : Int?
+	public let flingEffect : NamedAPIResource<ItemFlingEffect>?
+	public let attributes : Set<NamedAPIResource<ItemAttribute>>
 	public let category : NamedAPIResource<ItemCategory>
 	public let effectEntries : Set<VerboseEffect>
 	public let flavorTextEntries : Set<VersionGroupFlavorText>
@@ -33,7 +33,7 @@ public struct Item : NamedResource {
 	public let names : Set<Name>
 	public let sprites : ItemSprites
 	public let heldByPokemon : Set<ItemHolderPokemon>
-	public let babyTriggerFor : APIResource<EvolutionChain>
+	public let babyTriggerFor : APIResource<EvolutionChain>?
 	public let machines : Set<MachineVersionDetail>
 }
 

@@ -45,7 +45,7 @@ public struct PokemonSpecies : NamedResource {
 	public let eggGroups : Set<NamedAPIResource<EggGroup>>
 	public let color : NamedAPIResource<PokemonColor>
 	public let shape : NamedAPIResource<PokemonShape>
-	public let evolvesFromSpecies : NamedAPIResource<PokemonSpecies>
+	public let evolvesFromSpecies : NamedAPIResource<PokemonSpecies>?
 	public let evolutionChain : APIResource<EvolutionChain>
 	public let habitat : NamedAPIResource<PokemonHabitat>
 	public let generation : NamedAPIResource<Generation>

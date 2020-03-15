@@ -19,7 +19,7 @@ public struct Pokedex : NamedResource {
 	public let descriptions : Set<Description>
 	public let names : Set<Name>
 	public let pokemonEntries : Set<PokemonEntry>
-	public let region : NamedAPIResource<Region>
+	public let region : NamedAPIResource<Region>?
 	public let versionGroups : Set<NamedAPIResource<VersionGroup>>
 }
 

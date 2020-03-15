@@ -1,15 +1,10 @@
 
-public protocol PokeAPIDelegate : AnyObject {
-	func updatedEndpoints(pokeAPI: PokeAPIProtocol, withEndpoints: [String : String])
-	func updatedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: Set<String>)
-	func updatedNamedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: [String : String])
-	func updatedResource(pokeAPI: PokeAPIProtocol, at location: String)
-}
-
 public protocol PokeAPIProtocol : AnyObject {
-	var delegate : PokeAPIDelegate? { get set }
-	func location(endpoint: String, id: String) -> String?
+	func location(endpoint: String, id: String?) -> String?
 	func resource<R>(at location: String) -> R? where R : Resource
+	func locationAreaEncounters(pokemon: Pokemon) -> Set<LocationAreaEncounter>?
+	func resourceList<R>() -> APIResourceList<R>? where R : Resource
+	func namedResourceList<R>() -> NamedAPIResourceList<R>? where R : NamedResource
 }
 
 public extension PokeAPIProtocol {

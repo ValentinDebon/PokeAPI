@@ -4,25 +4,35 @@ public final class PokeAPILocal : PokeAPIProtocol {
 	private let url : URL
 	private let decoder : JSONDecoder
 	private let endpoints : [String : String]
-	public var delegate : PokeAPIDelegate?
 
-	public init(at url: URL, index: String = "/api/v2/index.json", delegate: PokeAPIDelegate? = nil) throws {
+	public init(at url: URL, index: String = "/api/v2/index.json") throws {
 		self.url = url
 		self.decoder = JSONDecoder()
 		self.endpoints = try self.decoder.decode([String : String].self, from: Data(contentsOf: url.appendingPathComponent(index)))
-		self.delegate = delegate
 	}
 
-	public func location(endpoint: String, id: String) -> String? {
+	public func location(endpoint: String, id: String? = nil) -> String? {
 		guard let endpoint = self.endpoints[endpoint] else {
 			return nil
 		}
 
-		return endpoint + id
+		return endpoint + (id ?? "/index.json")
 	}
 
 	public func resource<R>(at location: String) -> R? where R : Resource {
 		try? self.decoder.decode(R.self, from: Data(contentsOf: self.url.appendingPathComponent(location).appendingPathComponent("index.json")))
+	}
+
+	public func locationAreaEncounters(pokemon: Pokemon) -> Set<LocationAreaEncounter>? {
+		try? self.decoder.decode(Set<LocationAreaEncounter>.self, from: Data(contentsOf: self.url.appendingPathComponent(pokemon.locationAreaEncounters).appendingPathComponent("/index.json")))
+	}
+	
+	public func resourceList<R>() -> APIResourceList<R>? where R : Resource {
+		try? self.decoder.decode(APIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(R.endpoint).appendingPathComponent("/index.json")))
+	}
+
+	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R : NamedResource {
+		try? self.decoder.decode(NamedAPIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(R.endpoint).appendingPathComponent("/index.json")))
 	}
 }
 

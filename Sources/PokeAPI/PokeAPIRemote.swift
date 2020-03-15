@@ -1,5 +1,12 @@
 import Foundation
 
+public protocol PokeAPIDelegate : AnyObject {
+	func updatedEndpoints(pokeAPI: PokeAPIProtocol, withEndpoints: [String : String])
+	func updatedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: Set<String>)
+	func updatedNamedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: [String : String])
+	func updatedResource(pokeAPI: PokeAPIProtocol, at location: String)
+}
+
 public final class PokeAPIRemote : PokeAPIProtocol {
 	public static func makeURL() -> URL? {
 		try? FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -25,11 +32,24 @@ public final class PokeAPIRemote : PokeAPIProtocol {
 		self.delegate = delegate
 	}
 
-	public func location(endpoint: String, id: String) -> String? {
+	public func location(endpoint: String, id: String? = nil) -> String? {
 		fatalError("unimplemented")
 	}
 
 	public func resource<R>(at location: String) -> R? where R : Resource {
+		fatalError("unimplemented")
+	}
+	
+	public func locationAreaEncounters(pokemon: Pokemon) -> Set<LocationAreaEncounter>? {
+		fatalError("unimplemented")
+	}
+
+	public func resourceList<R>() -> APIResourceList<R>? where R : Resource {
+		fatalError("unimplemented")
+		
+	}
+
+	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R : NamedResource {
 		fatalError("unimplemented")
 	}
 }

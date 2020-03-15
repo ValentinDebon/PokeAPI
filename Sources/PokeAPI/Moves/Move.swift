@@ -31,7 +31,7 @@ public struct Move : NamedResource {
 	public let id : Int
 	public let name : String
 	public let accuracy : Int
-	public let effectChance : Int
+	public let effectChance : Int?
 	public let pp : Int
 	public let priority : Int
 	public let power : Int
@@ -64,8 +64,8 @@ public struct ContestComboDetail : Codable {
 		case useAfter  = "use_after"
 	}
 
-	public let useBefore : Set<NamedAPIResource<Move>>
-	public let useAfter : Set<NamedAPIResource<Move>>
+	public let useBefore : Set<NamedAPIResource<Move>>?
+	public let useAfter : Set<NamedAPIResource<Move>>?
 }
 
 public struct MoveFlavorText : Localized {

@@ -38,7 +38,7 @@ public struct FlavorText : Localized {
 
 	public let flavorText : String
 	public let language : NamedAPIResource<Language>
-	public let version : NamedAPIResource<Version>
+	public let version : NamedAPIResource<Version>?
 }
 
 public struct GenerationGameIndex : Hashable, Codable {

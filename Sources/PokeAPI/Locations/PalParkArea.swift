@@ -24,6 +24,6 @@ public struct PalParkEncounterSpecies : Hashable, Codable {
 
 	public let baseScore : Int
 	public let rate : Int
-	public let pokemonSpecies : Set<NamedAPIResource<PokemonSpecies>>
+	public let pokemonSpecies : NamedAPIResource<PokemonSpecies>
 }
 

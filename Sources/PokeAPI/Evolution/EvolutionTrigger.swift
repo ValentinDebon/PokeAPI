@@ -12,6 +12,6 @@ public struct EvolutionTrigger : NamedResource {
 	public let id : Int
 	public let name : String
 	public let names : Set<Name>
-	public let pokemonSpecies : Set<PokemonSpecies>
+	public let pokemonSpecies : Set<NamedAPIResource<PokemonSpecies>>
 }
 
