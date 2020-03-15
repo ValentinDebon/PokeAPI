@@ -26,8 +26,7 @@ final class PokeAPITests: XCTestCase {
 	}
 
 	func testPokeAPILocal() {
-		let bundle = Bundle(for: type(of: self))
-		guard let url = bundle.url(forResource: "data", withExtension: nil) else {
+		guard let url = Bundle(for: type(of: self)).resourceURL else {
 			XCTFail("Invalid url")
 			return
 		}
