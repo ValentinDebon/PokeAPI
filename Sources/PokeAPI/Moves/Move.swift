@@ -1,6 +1,6 @@
 
-public struct Move : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct Move: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case accuracy
@@ -28,60 +28,60 @@ public struct Move : NamedResource {
 
 	public static let endpoint = "move"
 
-	public let id : Int
-	public let name : String
-	public let accuracy : Int?
-	public let effectChance : Int?
-	public let pp : Int?
-	public let priority : Int
-	public let power : Int?
-	public let contestCombos : ContestComboSets?
-	public let contestType : NamedAPIResource<ContestType>?
-	public let contestEffect : APIResource<ContestEffect>?
-	public let damageClass : NamedAPIResource<MoveDamageClass>
-	public let effectEntries : Set<VerboseEffect>
-	public let effectChanges : Set<AbilityEffectChange>
-	public let flavorTextEntries : Set<MoveFlavorText>
-	public let generation : NamedAPIResource<Generation>
-	public let machines : Set<MachineVersionDetail>
-	public let meta : MoveMetaData?
-	public let names : Set<Name>
-	public let pastValues : Set<PastMoveStatValues>
-	public let statChanges : Set<MoveStatChange>
-	public let superContestEffect : APIResource<SuperContestEffect>?
-	public let target : NamedAPIResource<MoveTarget>
-	public let type : NamedAPIResource<Type>?
+	public var id: Int
+	public var name: String
+	public var accuracy: Int?
+	public var effectChance: Int?
+	public var pp: Int?
+	public var priority: Int
+	public var power: Int?
+	public var contestCombos: ContestComboSets?
+	public var contestType: NamedAPIResource<ContestType>?
+	public var contestEffect: APIResource<ContestEffect>?
+	public var damageClass: NamedAPIResource<MoveDamageClass>
+	public var effectEntries: Set<VerboseEffect>
+	public var effectChanges: Set<AbilityEffectChange>
+	public var flavorTextEntries: Set<MoveFlavorText>
+	public var generation: NamedAPIResource<Generation>
+	public var machines: Set<MachineVersionDetail>
+	public var meta: MoveMetaData?
+	public var names: Set<Name>
+	public var pastValues: Set<PastMoveStatValues>
+	public var statChanges: Set<MoveStatChange>
+	public var superContestEffect: APIResource<SuperContestEffect>?
+	public var target: NamedAPIResource<MoveTarget>
+	public var type: NamedAPIResource<Type>?
 }
 
-public struct ContestComboSets : Codable {
-	public let normal : ContestComboDetail
-	public let `super` : ContestComboDetail
+public struct ContestComboSets: Codable {
+	public var normal: ContestComboDetail
+	public var `super`: ContestComboDetail
 }
 
-public struct ContestComboDetail : Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct ContestComboDetail: Codable {
+	public enum CodingKeys: String, CodingKey {
 		case useBefore = "use_before"
 		case useAfter  = "use_after"
 	}
 
-	public let useBefore : Set<NamedAPIResource<Move>>?
-	public let useAfter : Set<NamedAPIResource<Move>>?
+	public var useBefore: Set<NamedAPIResource<Move>>?
+	public var useAfter: Set<NamedAPIResource<Move>>?
 }
 
-public struct MoveFlavorText : Localized {
-	public enum CodingKeys : String, CodingKey {
+public struct MoveFlavorText: Localized {
+	public enum CodingKeys: String, CodingKey {
 		case flavorText   = "flavor_text"
 		case language
 		case versionGroup = "version_group"
 	}
 
-	public let flavorText : String
-	public let language : NamedAPIResource<Language>
-	public let versionGroup : NamedAPIResource<VersionGroup>
+	public var flavorText: String
+	public var language: NamedAPIResource<Language>
+	public var versionGroup: NamedAPIResource<VersionGroup>
 }
 
-public struct MoveMetaData : Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct MoveMetaData: Codable {
+	public enum CodingKeys: String, CodingKey {
 		case ailment
 		case category
 		case minHits       = "min_hits"
@@ -96,27 +96,27 @@ public struct MoveMetaData : Codable {
 		case statChance    = "stat_chance"
 	}
 
-	public let ailment : NamedAPIResource<MoveAilment>
-	public let category : NamedAPIResource<MoveCategory>
-	public let minHits : Int?
-	public let maxHits : Int?
-	public let minTurns : Int?
-	public let maxTurns : Int?
-	public let drain : Int
-	public let healing : Int
-	public let critRate : Int
-	public let ailmentChance : Int
-	public let flinchChance : Int
-	public let statChance : Int
+	public var ailment: NamedAPIResource<MoveAilment>
+	public var category: NamedAPIResource<MoveCategory>
+	public var minHits: Int?
+	public var maxHits: Int?
+	public var minTurns: Int?
+	public var maxTurns: Int?
+	public var drain: Int
+	public var healing: Int
+	public var critRate: Int
+	public var ailmentChance: Int
+	public var flinchChance: Int
+	public var statChance: Int
 }
 
-public struct MoveStatChange : Hashable, Codable {
-	public let change : Int
-	public let stat : NamedAPIResource<Stat>
+public struct MoveStatChange: Hashable, Codable {
+	public var change: Int
+	public var stat: NamedAPIResource<Stat>
 }
 
-public struct PastMoveStatValues : Hashable, Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct PastMoveStatValues: Hashable, Codable {
+	public enum CodingKeys: String, CodingKey {
 		case accuracy
 		case effectChance  = "effect_chance"
 		case power
@@ -126,11 +126,11 @@ public struct PastMoveStatValues : Hashable, Codable {
 		case versionGroup  = "version_group"
 	}
 
-	public let accuracy : Int?
-	public let effectChance : Int?
-	public let power : Int?
-	public let pp : Int?
-	public let effectEntries : Set<VerboseEffect>
-	public let type : NamedAPIResource<Type>?
-	public let versionGroup : NamedAPIResource<VersionGroup>
+	public var accuracy: Int?
+	public var effectChance: Int?
+	public var power: Int?
+	public var pp: Int?
+	public var effectEntries: Set<VerboseEffect>
+	public var type: NamedAPIResource<Type>?
+	public var versionGroup: NamedAPIResource<VersionGroup>
 }

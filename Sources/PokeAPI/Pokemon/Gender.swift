@@ -1,6 +1,6 @@
 
-public struct Gender : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct Gender: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case pokemonSpeciesDetails = "pokemon_species_details"
@@ -9,19 +9,19 @@ public struct Gender : NamedResource {
 
 	public static let endpoint = "gender"
 
-	public let id : Int
-	public let name : String
-	public let pokemonSpeciesDetails : Set<PokemonSpeciesGender>
-	public let requiredForEvolution : Set<NamedAPIResource<PokemonSpecies>>
+	public var id: Int
+	public var name: String
+	public var pokemonSpeciesDetails: Set<PokemonSpeciesGender>
+	public var requiredForEvolution: Set<NamedAPIResource<PokemonSpecies>>
 }
 
-public struct PokemonSpeciesGender : Hashable, Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct PokemonSpeciesGender: Hashable, Codable {
+	public enum CodingKeys: String, CodingKey {
 		case rate
 		case pokemonSpecies = "pokemon_species"
 	}
 
-	public let rate : Int
-	public let pokemonSpecies : NamedAPIResource<PokemonSpecies>
+	public var rate: Int
+	public var pokemonSpecies: NamedAPIResource<PokemonSpecies>
 }
 

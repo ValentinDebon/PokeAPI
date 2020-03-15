@@ -1,9 +1,9 @@
 
-public struct EncounterConditionValue : NamedResource {
+public struct EncounterConditionValue: NamedResource {
 	public static let endpoint = "encounter-condition-value"
 
-	public let id : Int
-	public let name : String
-	public let condition : NamedAPIResource<EncounterCondition>
-	public let names : Set<Name>
+	public var id: Int
+	public var name: String
+	public var condition: NamedAPIResource<EncounterCondition>
+	public var names: Set<Name>
 }

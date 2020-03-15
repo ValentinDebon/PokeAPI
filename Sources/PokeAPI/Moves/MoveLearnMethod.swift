@@ -1,6 +1,6 @@
 
-public struct MoveLearnMethod : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct MoveLearnMethod: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case descriptions
@@ -10,10 +10,10 @@ public struct MoveLearnMethod : NamedResource {
 
 	public static let endpoint = "move-learn-method"
 
-	public let id : Int
-	public let name : String
-	public let descriptions : Set<Description>
-	public let names : Set<Name>
-	public let versionGroups : Set<NamedAPIResource<VersionGroup>>
+	public var id: Int
+	public var name: String
+	public var descriptions: Set<Description>
+	public var names: Set<Name>
+	public var versionGroups: Set<NamedAPIResource<VersionGroup>>
 }
 

@@ -1,15 +1,15 @@
 
-public struct APIResourceList<R : Resource> : Codable {
-	public let count : Int
-	public let next : String?
-	public let previous : String?
-	public let results : Set<APIResource<R>>
+public struct APIResourceList<R: Resource>: Codable {
+	public var count: Int
+	public var next: String?
+	public var previous: String?
+	public var results: Set<APIResource<R>>
 }
 
-public struct NamedAPIResourceList<R : NamedResource> : Codable {
-	public let count : Int
-	public let next : String?
-	public let previous : String?
-	public let results : Set<NamedAPIResource<R>>
+public struct NamedAPIResourceList<R: NamedResource>: Codable {
+	public var count: Int
+	public var next: String?
+	public var previous: String?
+	public var results: Set<NamedAPIResource<R>>
 }
 

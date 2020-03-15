@@ -1,6 +1,6 @@
 
-public struct Generation : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct Generation: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case abilities
@@ -14,14 +14,14 @@ public struct Generation : NamedResource {
 
 	public static let endpoint = "generation"
 
-	public let id : Int
-	public let name : String
-	public let abilities : Set<NamedAPIResource<Ability>>
-	public let names : Set<Name>
-	public let mainRegion : NamedAPIResource<Region>
-	public let moves : Set<NamedAPIResource<Move>>
-	public let pokemonSpecies : Set<NamedAPIResource<PokemonSpecies>>
-	public let types : Set<NamedAPIResource<Type>>
-	public let versionGroups : Set<NamedAPIResource<VersionGroup>>
+	public var id: Int
+	public var name: String
+	public var abilities: Set<NamedAPIResource<Ability>>
+	public var names: Set<Name>
+	public var mainRegion: NamedAPIResource<Region>
+	public var moves: Set<NamedAPIResource<Move>>
+	public var pokemonSpecies: Set<NamedAPIResource<PokemonSpecies>>
+	public var types: Set<NamedAPIResource<Type>>
+	public var versionGroups: Set<NamedAPIResource<VersionGroup>>
 }
 

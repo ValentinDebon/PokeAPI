@@ -1,6 +1,6 @@
 
-public struct Berry : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct Berry: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case growthTime       = "growth_time"
@@ -17,23 +17,23 @@ public struct Berry : NamedResource {
 
 	public static let endpoint = "berry"
 
-	public let id : Int
-	public let name : String
-	public let growthTime : Int
-	public let maxHarvest : Int
-	public let naturalGiftPower : Int
-	public let size : Int
-	public let smoothness : Int
-	public let soilDryness : Int
-	public let firmness : NamedAPIResource<BerryFirmness>
-	public let flavors : Set<BerryFlavorMap>
-	public let item : NamedAPIResource<Item>
-	public let naturalGiftType : NamedAPIResource<Type>
+	public var id: Int
+	public var name: String
+	public var growthTime: Int
+	public var maxHarvest: Int
+	public var naturalGiftPower: Int
+	public var size: Int
+	public var smoothness: Int
+	public var soilDryness: Int
+	public var firmness: NamedAPIResource<BerryFirmness>
+	public var flavors: Set<BerryFlavorMap>
+	public var item: NamedAPIResource<Item>
+	public var naturalGiftType: NamedAPIResource<Type>
 }
 
-public struct BerryFlavorMap : Hashable, Codable {
-	public let potency : Int
-	public let flavor : NamedAPIResource<BerryFlavor>
+public struct BerryFlavorMap: Hashable, Codable {
+	public var potency: Int
+	public var flavor: NamedAPIResource<BerryFlavor>
 
 	public func hash(into hasher: inout Hasher) {
 		hasher.combine(self.flavor)

@@ -1,10 +1,10 @@
 
-public struct ItemPocket : NamedResource {
+public struct ItemPocket: NamedResource {
 	public static let endpoint = "item-pocket"
 
-	public let id : Int
-	public let name : String
-	public let categories : Set<NamedAPIResource<ItemCategory>>
-	public let names : Set<Name>
+	public var id: Int
+	public var name: String
+	public var categories: Set<NamedAPIResource<ItemCategory>>
+	public var names: Set<Name>
 }
 

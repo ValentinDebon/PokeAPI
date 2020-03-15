@@ -1,12 +1,12 @@
 import XCTest
 @testable import PokeAPI
 
-final class PokeAPITests : XCTestCase {
+final class PokeAPITests: XCTestCase {
 
-	func testResource<R, P>(pokeAPI: P, _ resource: R.Type) where R : Resource, P : PokeAPIProtocol {
-		if let apiResourceList : APIResourceList<R> = pokeAPI.resourceList() {
+	func testResource<R, P>(pokeAPI: P, _ resource: R.Type) where R: Resource, P: PokeAPIProtocol {
+		if let apiResourceList: APIResourceList<R> = pokeAPI.resourceList() {
 			for apiResource in apiResourceList.results {
-				let resource : R? = pokeAPI.resource(at: apiResource.url)
+				let resource: R? = pokeAPI.resource(at: apiResource.url)
 				XCTAssertNotNil(resource, "Unable to access \(R.self) resource: \(apiResource)")
 			}
 		} else {
@@ -14,10 +14,10 @@ final class PokeAPITests : XCTestCase {
 		}
 	}
 
-	func testNamedResource<R, P>(pokeAPI: P, _ resource: R.Type) where R : NamedResource, P : PokeAPIProtocol {
-		if let apiResourceList : NamedAPIResourceList<R> = pokeAPI.namedResourceList() {
+	func testNamedResource<R, P>(pokeAPI: P, _ resource: R.Type) where R: NamedResource, P: PokeAPIProtocol {
+		if let apiResourceList: NamedAPIResourceList<R> = pokeAPI.namedResourceList() {
 			for apiResource in apiResourceList.results {
-				let resource : R? = pokeAPI.resource(at: apiResource.url)
+				let resource: R? = pokeAPI.resource(at: apiResource.url)
 				XCTAssertNotNil(resource, "Unable to access \(R.self) named resource: \(apiResource)")
 			}
 		} else {

@@ -1,12 +1,12 @@
 
-public struct Language : NamedResource {
+public struct Language: NamedResource {
 	public static let endpoint = "language"
 
-	public let id : Int
-	public let name : String
-	public let official : Bool
-	public let iso639 : String
-	public let iso3166 : String
-	public let names : Set<Name>
+	public var id: Int
+	public var name: String
+	public var official: Bool
+	public var iso639: String
+	public var iso3166: String
+	public var names: Set<Name>
 }
 

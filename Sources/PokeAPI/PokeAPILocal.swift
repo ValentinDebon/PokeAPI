@@ -1,14 +1,14 @@
 import Foundation
 
-public final class PokeAPILocal : PokeAPIProtocol {
-	private let url : URL
-	private let decoder : JSONDecoder
-	private let endpoints : [String : String]
+public final class PokeAPILocal: PokeAPIProtocol {
+	private let url: URL
+	private let decoder: JSONDecoder
+	private let endpoints: [String: String]
 
 	public init(at url: URL, index: String = "/api/v2/index.json") throws {
 		self.url = url
 		self.decoder = JSONDecoder()
-		self.endpoints = try self.decoder.decode([String : String].self, from: Data(contentsOf: url.appendingPathComponent(index)))
+		self.endpoints = try self.decoder.decode([String: String].self, from: Data(contentsOf: url.appendingPathComponent(index)))
 	}
 
 	public func location(endpoint: String, id: String? = nil) -> String? {
@@ -19,7 +19,7 @@ public final class PokeAPILocal : PokeAPIProtocol {
 		return endpoint + (id ?? "/index.json")
 	}
 
-	public func resource<R>(at location: String) -> R? where R : Resource {
+	public func resource<R>(at location: String) -> R? where R: Resource {
 		try? self.decoder.decode(R.self, from: Data(contentsOf: self.url.appendingPathComponent(location).appendingPathComponent("index.json")))
 	}
 
@@ -27,7 +27,7 @@ public final class PokeAPILocal : PokeAPIProtocol {
 		try? self.decoder.decode(Set<LocationAreaEncounter>.self, from: Data(contentsOf: self.url.appendingPathComponent(pokemon.locationAreaEncounters).appendingPathComponent("/index.json")))
 	}
 
-	public func resourceList<R>() -> APIResourceList<R>? where R : Resource {
+	public func resourceList<R>() -> APIResourceList<R>? where R: Resource {
 		guard let endpoint = self.endpoints[R.endpoint] else {
 			return nil
 		}
@@ -35,7 +35,7 @@ public final class PokeAPILocal : PokeAPIProtocol {
 		return try? self.decoder.decode(APIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(endpoint).appendingPathComponent("/index.json")))
 	}
 
-	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R : NamedResource {
+	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R: NamedResource {
 		guard let endpoint = self.endpoints[R.endpoint] else {
 			return nil
 		}

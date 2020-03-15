@@ -1,6 +1,6 @@
 
-public struct ContestEffect : Resource {
-	public enum CodingKeys : String, CodingKey {
+public struct ContestEffect: Resource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case appeal
 		case jam
@@ -10,10 +10,10 @@ public struct ContestEffect : Resource {
 
 	public static let endpoint = "contest-effect"
 
-	public let id : Int
-	public let appeal : Int
-	public let jam : Int
-	public let effectEntries : Set<Effect>
-	public let flavorTextEntries : Set<FlavorText>
+	public var id: Int
+	public var appeal: Int
+	public var jam: Int
+	public var effectEntries: Set<Effect>
+	public var flavorTextEntries: Set<FlavorText>
 }
 

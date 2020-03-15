@@ -1,9 +1,9 @@
 
-public struct MoveBattleStyle : NamedResource {
+public struct MoveBattleStyle: NamedResource {
 	public static let endpoint = "move-battle-style"
 
-	public let id : Int
-	public let name : String
-	public let names : Set<Name>
+	public var id: Int
+	public var name: String
+	public var names: Set<Name>
 }
 

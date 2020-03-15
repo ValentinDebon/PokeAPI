@@ -1,6 +1,6 @@
 
-public struct PalParkArea : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct PalParkArea: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case names
@@ -9,21 +9,21 @@ public struct PalParkArea : NamedResource {
 
 	public static let endpoint = "pal-park-area"
 
-	public let id : Int
-	public let name : String
-	public let names : Set<Name>
-	public let pokemonEncounters : Set<PalParkEncounterSpecies>
+	public var id: Int
+	public var name: String
+	public var names: Set<Name>
+	public var pokemonEncounters: Set<PalParkEncounterSpecies>
 }
 
-public struct PalParkEncounterSpecies : Hashable, Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct PalParkEncounterSpecies: Hashable, Codable {
+	public enum CodingKeys: String, CodingKey {
 		case baseScore      = "base_score"
 		case rate
 		case pokemonSpecies = "pokemon_species"
 	}
 
-	public let baseScore : Int
-	public let rate : Int
-	public let pokemonSpecies : NamedAPIResource<PokemonSpecies>
+	public var baseScore: Int
+	public var rate: Int
+	public var pokemonSpecies: NamedAPIResource<PokemonSpecies>
 }
 

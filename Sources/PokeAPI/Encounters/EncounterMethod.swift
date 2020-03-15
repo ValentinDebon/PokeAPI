@@ -1,10 +1,10 @@
 
-public struct EncounterMethod : NamedResource {
+public struct EncounterMethod: NamedResource {
 	public static let endpoint = "encounter-method"
 
-	public let id : Int
-	public let name : String
-	public let order : Int
-	public let names : Set<Name>
+	public var id: Int
+	public var name: String
+	public var order: Int
+	public var names: Set<Name>
 }
 

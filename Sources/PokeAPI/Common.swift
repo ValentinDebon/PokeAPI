@@ -1,15 +1,15 @@
 
-public protocol Resource : Hashable, Codable {
-	static var endpoint : String { get }
-	var id : Int { get }
+public protocol Resource: Hashable, Codable {
+	static var endpoint: String { get }
+	var id: Int { get }
 }
 
-public protocol NamedResource : Resource {
-	var name : String { get }
+public protocol NamedResource: Resource {
+	var name: String { get }
 }
 
-public protocol Localized : Hashable, Codable {
-	var language : NamedAPIResource<Language> { get }
+public protocol Localized: Hashable, Codable {
+	var language: NamedAPIResource<Language> { get }
 }
 
 public extension Resource {

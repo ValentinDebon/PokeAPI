@@ -1,6 +1,6 @@
 
-public struct Pokedex : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct Pokedex: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case isMainSeries   = "is_main_series"
@@ -13,24 +13,24 @@ public struct Pokedex : NamedResource {
 
 	public static let endpoint = "pokedex"
 
-	public let id : Int
-	public let name : String
-	public let isMainSeries : Bool
-	public let descriptions : Set<Description>
-	public let names : Set<Name>
-	public let pokemonEntries : Set<PokemonEntry>
-	public let region : NamedAPIResource<Region>?
-	public let versionGroups : Set<NamedAPIResource<VersionGroup>>
+	public var id: Int
+	public var name: String
+	public var isMainSeries: Bool
+	public var descriptions: Set<Description>
+	public var names: Set<Name>
+	public var pokemonEntries: Set<PokemonEntry>
+	public var region: NamedAPIResource<Region>?
+	public var versionGroups: Set<NamedAPIResource<VersionGroup>>
 }
 
-public struct PokemonEntry : Hashable, Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct PokemonEntry: Hashable, Codable {
+	public enum CodingKeys: String, CodingKey {
 		case entryNumber    = "entry_number"
 		case pokemonSpecies = "pokemon_species"
 	}
 
-	public let entryNumber : Int
-	public let pokemonSpecies : NamedAPIResource<PokemonSpecies>
+	public var entryNumber: Int
+	public var pokemonSpecies: NamedAPIResource<PokemonSpecies>
 
 	public func hash(into hasher: inout Hasher) {
 		hasher.combine(self.entryNumber)

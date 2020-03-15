@@ -1,6 +1,6 @@
 
-public struct Machine : Resource {
-	public enum CodingKeys : String, CodingKey {
+public struct Machine: Resource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case item
 		case move
@@ -9,9 +9,9 @@ public struct Machine : Resource {
 
 	public static let endpoint = "machine"
 
-	public let id : Int
-	public let item : NamedAPIResource<Item>
-	public let move : NamedAPIResource<Move>
-	public let versionGroup : NamedAPIResource<VersionGroup>
+	public var id: Int
+	public var item: NamedAPIResource<Item>
+	public var move: NamedAPIResource<Move>
+	public var versionGroup: NamedAPIResource<VersionGroup>
 }
 

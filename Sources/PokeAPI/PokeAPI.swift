@@ -1,8 +1,8 @@
 
-public final class PokeAPI : PokeAPIProtocol {
-	private let real : PokeAPIProtocol
-	private var resources : [String : Any]
-	private var locationAreaEncounters : [Int : Set<LocationAreaEncounter>]
+public final class PokeAPI: PokeAPIProtocol {
+	private let real: PokeAPIProtocol
+	private var resources: [String: Any]
+	private var locationAreaEncounters: [Int: Set<LocationAreaEncounter>]
 
 	init(real: PokeAPIProtocol) {
 		self.real = real
@@ -14,12 +14,12 @@ public final class PokeAPI : PokeAPIProtocol {
 		self.real.location(endpoint: endpoint, id: id)
 	}
 
-	public func resource<R>(at location: String) -> R? where R : Resource {
+	public func resource<R>(at location: String) -> R? where R: Resource {
 		if let cached = self.resources[location], let resource = cached as? R {
 			return resource
 		}
 
-		if let resource : R = self.real.resource(at: location) {
+		if let resource: R = self.real.resource(at: location) {
 			self.resources[location] = resource
 			return resource
 		}
@@ -40,7 +40,7 @@ public final class PokeAPI : PokeAPIProtocol {
 		return nil
 	}
 
-	public func resourceList<R>() -> APIResourceList<R>? where R : Resource {
+	public func resourceList<R>() -> APIResourceList<R>? where R: Resource {
 		guard let location = self.location(endpoint: R.endpoint) else {
 			return nil
 		}
@@ -49,7 +49,7 @@ public final class PokeAPI : PokeAPIProtocol {
 			return resourceList
 		}
 
-		if let resourceList : APIResourceList<R> = self.real.resourceList() {
+		if let resourceList: APIResourceList<R> = self.real.resourceList() {
 			self.resources[location] = resourceList
 			return resourceList
 		}
@@ -57,7 +57,7 @@ public final class PokeAPI : PokeAPIProtocol {
 		return nil
 	}
 
-	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R : NamedResource {
+	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R: NamedResource {
 		guard let location = self.location(endpoint: R.endpoint) else {
 			return nil
 		}
@@ -66,7 +66,7 @@ public final class PokeAPI : PokeAPIProtocol {
 			return namedResourceList
 		}
 
-		if let namedResourceList : NamedAPIResourceList<R> = self.real.namedResourceList() {
+		if let namedResourceList: NamedAPIResourceList<R> = self.real.namedResourceList() {
 			self.resources[location] = namedResourceList
 			return namedResourceList
 		}

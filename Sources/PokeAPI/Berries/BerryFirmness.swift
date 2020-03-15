@@ -1,10 +1,10 @@
 
-public struct BerryFirmness : NamedResource {
+public struct BerryFirmness: NamedResource {
 	public static let endpoint = "berry-firmness"
 
-	public let id : Int
-	public let name : String
-	public let berries : Set<NamedAPIResource<Berry>>
-	public let names : Set<Name>
+	public var id: Int
+	public var name: String
+	public var berries: Set<NamedAPIResource<Berry>>
+	public var names: Set<Name>
 }
 

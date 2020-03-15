@@ -1,6 +1,6 @@
 
-public struct PokemonForm : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct PokemonForm: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case order
@@ -18,32 +18,32 @@ public struct PokemonForm : NamedResource {
 
 	public static let endpoint = "pokemon-form"
 
-	public let id : Int
-	public let name : String
-	public let order : Int
-	public let formOrder : Int
-	public let isDefault : Bool
-	public let isBattleOnly : Bool
-	public let isMega : Bool
-	public let formName : String
-	public let pokemon : NamedAPIResource<Pokemon>
-	public let sprites : PokemonFormSprites
-	public let versionGroup : NamedAPIResource<VersionGroup>
-	public let names : Set<Name>
-	public let formNames : Set<Name>
+	public var id: Int
+	public var name: String
+	public var order: Int
+	public var formOrder: Int
+	public var isDefault: Bool
+	public var isBattleOnly: Bool
+	public var isMega: Bool
+	public var formName: String
+	public var pokemon: NamedAPIResource<Pokemon>
+	public var sprites: PokemonFormSprites
+	public var versionGroup: NamedAPIResource<VersionGroup>
+	public var names: Set<Name>
+	public var formNames: Set<Name>
 }
 
-public struct PokemonFormSprites : Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct PokemonFormSprites: Codable {
+	public enum CodingKeys: String, CodingKey {
 		case frontDefault     = "front_default"
 		case frontShiny       = "front_shiny"
 		case backDefault      = "back_default"
 		case backShiny        = "back_shiny"
 	}
 
-	public let frontDefault : String?
-	public let frontShiny : String?
-	public let backDefault : String?
-	public let backShiny : String?
+	public var frontDefault: String?
+	public var frontShiny: String?
+	public var backDefault: String?
+	public var backShiny: String?
 }
 

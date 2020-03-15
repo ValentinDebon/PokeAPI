@@ -1,6 +1,6 @@
 
-public struct Location : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct Location: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case region
@@ -11,11 +11,11 @@ public struct Location : NamedResource {
 
 	public static let endpoint = "location"
 
-	public let id : Int
-	public let name : String
-	public let region : NamedAPIResource<Region>?
-	public let names : Set<Name>
-	public let gameIndices : Set<GenerationGameIndex>
-	public let areas : Set<NamedAPIResource<LocationArea>>
+	public var id: Int
+	public var name: String
+	public var region: NamedAPIResource<Region>?
+	public var names: Set<Name>
+	public var gameIndices: Set<GenerationGameIndex>
+	public var areas: Set<NamedAPIResource<LocationArea>>
 }
 

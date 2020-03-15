@@ -1,6 +1,6 @@
 
-public struct Version : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct Version: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case names
@@ -9,9 +9,9 @@ public struct Version : NamedResource {
 
 	public static let endpoint = "version"
 
-	public let id : Int
-	public let name : String
-	public let names : Set<Name>
-	public let versionGroup : NamedAPIResource<VersionGroup>
+	public var id: Int
+	public var name: String
+	public var names: Set<Name>
+	public var versionGroup: NamedAPIResource<VersionGroup>
 }
 

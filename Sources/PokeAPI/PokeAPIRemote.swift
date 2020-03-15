@@ -1,13 +1,13 @@
 import Foundation
 
-public protocol PokeAPIDelegate : AnyObject {
-	func updatedEndpoints(pokeAPI: PokeAPIProtocol, withEndpoints: [String : String])
+public protocol PokeAPIDelegate: AnyObject {
+	func updatedEndpoints(pokeAPI: PokeAPIProtocol, withEndpoints: [String: String])
 	func updatedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: Set<String>)
-	func updatedNamedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: [String : String])
+	func updatedNamedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: [String: String])
 	func updatedResource(pokeAPI: PokeAPIProtocol, at location: String)
 }
 
-public final class PokeAPIRemote : PokeAPIProtocol {
+public final class PokeAPIRemote: PokeAPIProtocol {
 	public static func makeURL() -> URL? {
 		try? FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
 	}
@@ -26,7 +26,7 @@ public final class PokeAPIRemote : PokeAPIProtocol {
 		return URLSession(configuration: sessionConfiguration)
 	}
 
-	public var delegate : PokeAPIDelegate?
+	public var delegate: PokeAPIDelegate?
 
 	public init(at url: URL, session: URLSession = PokeAPIRemote.makeSession(), delegate: PokeAPIDelegate?) {
 		self.delegate = delegate
@@ -36,7 +36,7 @@ public final class PokeAPIRemote : PokeAPIProtocol {
 		fatalError("unimplemented")
 	}
 
-	public func resource<R>(at location: String) -> R? where R : Resource {
+	public func resource<R>(at location: String) -> R? where R: Resource {
 		fatalError("unimplemented")
 	}
 	
@@ -44,12 +44,12 @@ public final class PokeAPIRemote : PokeAPIProtocol {
 		fatalError("unimplemented")
 	}
 
-	public func resourceList<R>() -> APIResourceList<R>? where R : Resource {
+	public func resourceList<R>() -> APIResourceList<R>? where R: Resource {
 		fatalError("unimplemented")
 		
 	}
 
-	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R : NamedResource {
+	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R: NamedResource {
 		fatalError("unimplemented")
 	}
 }

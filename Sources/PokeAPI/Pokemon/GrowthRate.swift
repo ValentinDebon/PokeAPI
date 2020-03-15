@@ -1,6 +1,6 @@
 
-public struct GrowthRate : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct GrowthRate: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case formula
@@ -11,15 +11,15 @@ public struct GrowthRate : NamedResource {
 
 	public static let endpoint = "growth-rate"
 
-	public let id : Int
-	public let name : String
-	public let formula : String
-	public let descriptions : Set<Description>
-	public let levels : Set<GrowthRateExperienceLevel>
-	public let pokemonSpecies : Set<NamedAPIResource<PokemonSpecies>>
+	public var id: Int
+	public var name: String
+	public var formula: String
+	public var descriptions: Set<Description>
+	public var levels: Set<GrowthRateExperienceLevel>
+	public var pokemonSpecies: Set<NamedAPIResource<PokemonSpecies>>
 }
 
-public struct GrowthRateExperienceLevel : Hashable, Codable {
-	public let level : Int
-	public let experience : Int
+public struct GrowthRateExperienceLevel: Hashable, Codable {
+	public var level: Int
+	public var experience: Int
 }

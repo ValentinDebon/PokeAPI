@@ -1,6 +1,6 @@
 
-public struct Stat : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct Stat: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case gameIndex        = "game_index"
@@ -14,29 +14,29 @@ public struct Stat : NamedResource {
 
 	public static let endpoint = "stat"
 
-	public let id : Int
-	public let name : String
-	public let gameIndex : Int
-	public let isBattleOnly : Bool
-	public let affectingMoves : MoveStatAffectSets
-	public let affectingNatures : NatureStatAffectSets
-	public let characteristics : Set<APIResource<Characteristic>>
-	public let moveDamageClass : NamedAPIResource<MoveDamageClass>?
-	public let names : Set<Name>
+	public var id: Int
+	public var name: String
+	public var gameIndex: Int
+	public var isBattleOnly: Bool
+	public var affectingMoves: MoveStatAffectSets
+	public var affectingNatures: NatureStatAffectSets
+	public var characteristics: Set<APIResource<Characteristic>>
+	public var moveDamageClass: NamedAPIResource<MoveDamageClass>?
+	public var names: Set<Name>
 }
 
-public struct MoveStatAffectSets : Codable {
-	public let increase : Set<MoveStatAffect>
-	public let decrease : Set<MoveStatAffect>
+public struct MoveStatAffectSets: Codable {
+	public var increase: Set<MoveStatAffect>
+	public var decrease: Set<MoveStatAffect>
 }
 
-public struct MoveStatAffect : Hashable, Codable {
-	public let change : Int
-	public let move : NamedAPIResource<Move>
+public struct MoveStatAffect: Hashable, Codable {
+	public var change: Int
+	public var move: NamedAPIResource<Move>
 }
 
-public struct NatureStatAffectSets : Codable {
-	public let increase : Set<NamedAPIResource<Nature>>
-	public let decrease : Set<NamedAPIResource<Nature>>
+public struct NatureStatAffectSets: Codable {
+	public var increase: Set<NamedAPIResource<Nature>>
+	public var decrease: Set<NamedAPIResource<Nature>>
 }
 

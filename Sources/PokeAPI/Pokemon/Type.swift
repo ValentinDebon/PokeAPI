@@ -1,6 +1,6 @@
 
-public struct Type : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct Type: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case damageRelations = "damage_relations"
@@ -14,24 +14,24 @@ public struct Type : NamedResource {
 
 	public static let endpoint = "type"
 
-	public let id : Int
-	public let name : String
-	public let damageRelations : TypeRelations
-	public let gameIndices : Set<GenerationGameIndex>
-	public let generation : NamedAPIResource<Generation>
-	public let moveDamageClass : NamedAPIResource<MoveDamageClass>?
-	public let names : Set<Name>
-	public let pokemon : Set<TypePokemon>
-	public let moves : Set<NamedAPIResource<Move>>
+	public var id: Int
+	public var name: String
+	public var damageRelations: TypeRelations
+	public var gameIndices: Set<GenerationGameIndex>
+	public var generation: NamedAPIResource<Generation>
+	public var moveDamageClass: NamedAPIResource<MoveDamageClass>?
+	public var names: Set<Name>
+	public var pokemon: Set<TypePokemon>
+	public var moves: Set<NamedAPIResource<Move>>
 }
 
-public struct TypePokemon : Hashable, Codable {
-	public let slot : Int
-	public let pokemon : NamedAPIResource<Pokemon>
+public struct TypePokemon: Hashable, Codable {
+	public var slot: Int
+	public var pokemon: NamedAPIResource<Pokemon>
 }
 
-public struct TypeRelations : Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct TypeRelations: Codable {
+	public enum CodingKeys: String, CodingKey {
 		case noDamageTo       = "no_damage_to"
 		case halfDamageTo     = "half_damage_to"
 		case doubleDamageTo   = "double_damage_to"
@@ -40,11 +40,11 @@ public struct TypeRelations : Codable {
 		case doubleDamageFrom = "double_damage_from"
 	}
 
-	public let noDamageTo : Set<NamedAPIResource<Type>>
-	public let halfDamageTo : Set<NamedAPIResource<Type>>
-	public let doubleDamageTo : Set<NamedAPIResource<Type>>
-	public let noDamageFrom : Set<NamedAPIResource<Type>>
-	public let halfDamageFrom : Set<NamedAPIResource<Type>>
-	public let doubleDamageFrom : Set<NamedAPIResource<Type>>
+	public var noDamageTo: Set<NamedAPIResource<Type>>
+	public var halfDamageTo: Set<NamedAPIResource<Type>>
+	public var doubleDamageTo: Set<NamedAPIResource<Type>>
+	public var noDamageFrom: Set<NamedAPIResource<Type>>
+	public var halfDamageFrom: Set<NamedAPIResource<Type>>
+	public var doubleDamageFrom: Set<NamedAPIResource<Type>>
 }
 

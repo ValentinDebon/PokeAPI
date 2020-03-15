@@ -1,6 +1,6 @@
 
-public struct Nature : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct Nature: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case decreasedStat              = "decreased_stat"
@@ -14,36 +14,36 @@ public struct Nature : NamedResource {
 
 	public static let endpoint = "nature"
 
-	public let id : Int
-	public let name : String
-	public let decreasedStat : NamedAPIResource<Stat>?
-	public let increasedStat : NamedAPIResource<Stat>?
-	public let hatesFlavor : NamedAPIResource<BerryFlavor>?
-	public let likesFlavor : NamedAPIResource<BerryFlavor>?
-	public let pokeathlonStatChanges : Set<NatureStatChange>
-	public let moveBattleStylePreferences : Set<MoveBattleStylePreference>
-	public let names : Set<Name>
+	public var id: Int
+	public var name: String
+	public var decreasedStat: NamedAPIResource<Stat>?
+	public var increasedStat: NamedAPIResource<Stat>?
+	public var hatesFlavor: NamedAPIResource<BerryFlavor>?
+	public var likesFlavor: NamedAPIResource<BerryFlavor>?
+	public var pokeathlonStatChanges: Set<NatureStatChange>
+	public var moveBattleStylePreferences: Set<MoveBattleStylePreference>
+	public var names: Set<Name>
 }
 
-public struct NatureStatChange : Hashable, Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct NatureStatChange: Hashable, Codable {
+	public enum CodingKeys: String, CodingKey {
 		case maxChange      = "max_change"
 		case pokeathlonStat = "pokeathlon_stat"
 	}
 
-	public let maxChange : Int
-	public let pokeathlonStat : NamedAPIResource<PokeathlonStat>
+	public var maxChange: Int
+	public var pokeathlonStat: NamedAPIResource<PokeathlonStat>
 }
 
-public struct MoveBattleStylePreference : Hashable, Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct MoveBattleStylePreference: Hashable, Codable {
+	public enum CodingKeys: String, CodingKey {
 		case lowHpPreference  = "low_hp_preference"
 		case highHpPreference = "high_hp_preference"
 		case moveBattleStyle  = "move_battle_style"
 	}
 
-	public let lowHpPreference : Int
-	public let highHpPreference : Int
-	public let moveBattleStyle : NamedAPIResource<MoveBattleStyle>
+	public var lowHpPreference: Int
+	public var highHpPreference: Int
+	public var moveBattleStyle: NamedAPIResource<MoveBattleStyle>
 }
 

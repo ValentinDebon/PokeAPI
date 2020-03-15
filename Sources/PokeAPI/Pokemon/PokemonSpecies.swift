@@ -1,6 +1,6 @@
 
-public struct PokemonSpecies : NamedResource {
-	public enum CodingKeys : String, CodingKey {
+public struct PokemonSpecies: NamedResource {
+	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case order
@@ -30,67 +30,67 @@ public struct PokemonSpecies : NamedResource {
 
 	public static let endpoint = "pokemon-species"
 
-	public let id : Int
-	public let name : String
-	public let order : Int
-	public let genderRate : Int
-	public let captureRate : Int
-	public let baseHappiness : Int
-	public let isBaby : Bool
-	public let hatchCounter : Int
-	public let hasGenderDifferences : Bool
-	public let formsSwitchable : Bool
-	public let growthRate : NamedAPIResource<GrowthRate>
-	public let pokedexNumbers : Set<PokemonSpeciesDexEntry>
-	public let eggGroups : Set<NamedAPIResource<EggGroup>>
-	public let color : NamedAPIResource<PokemonColor>
-	public let shape : NamedAPIResource<PokemonShape>
-	public let evolvesFromSpecies : NamedAPIResource<PokemonSpecies>?
-	public let evolutionChain : APIResource<EvolutionChain>
-	public let habitat : NamedAPIResource<PokemonHabitat>?
-	public let generation : NamedAPIResource<Generation>
-	public let names : Set<Name>
-	public let palParkEncounters : Set<PalParkEncounterArea>
-	public let flavorTextEntries : Set<FlavorText>
-	public let formDescriptions : Set<Description>
-	public let genera : Set<Genus>
-	public let varieties : Set<PokemonSpeciesVariety>
+	public var id: Int
+	public var name: String
+	public var order: Int
+	public var genderRate: Int
+	public var captureRate: Int
+	public var baseHappiness: Int
+	public var isBaby: Bool
+	public var hatchCounter: Int
+	public var hasGenderDifferences: Bool
+	public var formsSwitchable: Bool
+	public var growthRate: NamedAPIResource<GrowthRate>
+	public var pokedexNumbers: Set<PokemonSpeciesDexEntry>
+	public var eggGroups: Set<NamedAPIResource<EggGroup>>
+	public var color: NamedAPIResource<PokemonColor>
+	public var shape: NamedAPIResource<PokemonShape>
+	public var evolvesFromSpecies: NamedAPIResource<PokemonSpecies>?
+	public var evolutionChain: APIResource<EvolutionChain>
+	public var habitat: NamedAPIResource<PokemonHabitat>?
+	public var generation: NamedAPIResource<Generation>
+	public var names: Set<Name>
+	public var palParkEncounters: Set<PalParkEncounterArea>
+	public var flavorTextEntries: Set<FlavorText>
+	public var formDescriptions: Set<Description>
+	public var genera: Set<Genus>
+	public var varieties: Set<PokemonSpeciesVariety>
 }
 
-public struct Genus : Localized {
-	public let genus : String
-	public let language : NamedAPIResource<Language>
+public struct Genus: Localized {
+	public var genus: String
+	public var language: NamedAPIResource<Language>
 }
 
-public struct PokemonSpeciesDexEntry : Hashable, Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct PokemonSpeciesDexEntry: Hashable, Codable {
+	public enum CodingKeys: String, CodingKey {
 		case entryNumber = "entry_number"
 		case pokedex
 	}
 
-	public let entryNumber : Int
-	public let pokedex : NamedAPIResource<Pokedex>
+	public var entryNumber: Int
+	public var pokedex: NamedAPIResource<Pokedex>
 }
 
-public struct PalParkEncounterArea : Hashable, Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct PalParkEncounterArea: Hashable, Codable {
+	public enum CodingKeys: String, CodingKey {
 		case baseScore = "base_score"
 		case rate
 		case area
 	}
 
-	public let baseScore : Int
-	public let rate : Int
-	public let area : NamedAPIResource<PalParkArea>
+	public var baseScore: Int
+	public var rate: Int
+	public var area: NamedAPIResource<PalParkArea>
 }
 
-public struct PokemonSpeciesVariety : Hashable, Codable {
-	public enum CodingKeys : String, CodingKey {
+public struct PokemonSpeciesVariety: Hashable, Codable {
+	public enum CodingKeys: String, CodingKey {
 		case isDefault = "is_default"
 		case pokemon
 	}
 
-	public let isDefault : Bool
-	public let pokemon : NamedAPIResource<Pokemon>
+	public var isDefault: Bool
+	public var pokemon: NamedAPIResource<Pokemon>
 }
 

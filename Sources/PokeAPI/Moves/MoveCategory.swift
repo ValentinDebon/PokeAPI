@@ -1,10 +1,10 @@
 
-public struct MoveCategory : NamedResource {
+public struct MoveCategory: NamedResource {
 	public static let endpoint = "move-category"
 
-	public let id : Int
-	public let name : String
-	public let moves : Set<NamedAPIResource<Move>>
-	public let descriptions : Set<Description>
+	public var id: Int
+	public var name: String
+	public var moves: Set<NamedAPIResource<Move>>
+	public var descriptions: Set<Description>
 }
 
