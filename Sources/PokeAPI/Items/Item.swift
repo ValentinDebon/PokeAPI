@@ -38,7 +38,7 @@ public struct Item : NamedResource {
 }
 
 public struct ItemSprites : Codable {
-	public let `default` : String
+	public let `default` : String?
 }
 
 public struct ItemHolderPokemon : Hashable, Codable {
@@ -47,7 +47,7 @@ public struct ItemHolderPokemon : Hashable, Codable {
 		case versionDetails = "version_details"
 	}
 
-	public let pokemon : String
+	public let pokemon : NamedAPIResource<Pokemon>
 	public let versionDetails : Set<ItemHolderPokemonVersionDetail>
 }
 

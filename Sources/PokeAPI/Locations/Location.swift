@@ -13,7 +13,7 @@ public struct Location : NamedResource {
 
 	public let id : Int
 	public let name : String
-	public let region : NamedAPIResource<Region>
+	public let region : NamedAPIResource<Region>?
 	public let names : Set<Name>
 	public let gameIndices : Set<GenerationGameIndex>
 	public let areas : Set<NamedAPIResource<LocationArea>>

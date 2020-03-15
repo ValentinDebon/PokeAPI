@@ -26,13 +26,21 @@ public final class PokeAPILocal : PokeAPIProtocol {
 	public func locationAreaEncounters(pokemon: Pokemon) -> Set<LocationAreaEncounter>? {
 		try? self.decoder.decode(Set<LocationAreaEncounter>.self, from: Data(contentsOf: self.url.appendingPathComponent(pokemon.locationAreaEncounters).appendingPathComponent("/index.json")))
 	}
-	
+
 	public func resourceList<R>() -> APIResourceList<R>? where R : Resource {
-		try? self.decoder.decode(APIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(R.endpoint).appendingPathComponent("/index.json")))
+		guard let endpoint = self.endpoints[R.endpoint] else {
+			return nil
+		}
+
+		return try? self.decoder.decode(APIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(endpoint).appendingPathComponent("/index.json")))
 	}
 
 	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R : NamedResource {
-		try? self.decoder.decode(NamedAPIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(R.endpoint).appendingPathComponent("/index.json")))
+		guard let endpoint = self.endpoints[R.endpoint] else {
+			return nil
+		}
+
+		return try? self.decoder.decode(NamedAPIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(endpoint).appendingPathComponent("/index.json")))
 	}
 }
 

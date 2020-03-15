@@ -1,7 +1,30 @@
 import XCTest
 @testable import PokeAPI
 
-final class PokeAPITests: XCTestCase {
+final class PokeAPITests : XCTestCase {
+
+	func testResource<R, P>(pokeAPI: P, _ resource: R.Type) where R : Resource, P : PokeAPIProtocol {
+		if let apiResourceList : APIResourceList<R> = pokeAPI.resourceList() {
+			for apiResource in apiResourceList.results {
+				let resource : R? = pokeAPI.resource(at: apiResource.url)
+				XCTAssertNotNil(resource, "Unable to access \(R.self) resource: \(apiResource)")
+			}
+		} else {
+			XCTFail("Unable to access \(R.self) resource list")
+		}
+	}
+
+	func testNamedResource<R, P>(pokeAPI: P, _ resource: R.Type) where R : NamedResource, P : PokeAPIProtocol {
+		if let apiResourceList : NamedAPIResourceList<R> = pokeAPI.namedResourceList() {
+			for apiResource in apiResourceList.results {
+				let resource : R? = pokeAPI.resource(at: apiResource.url)
+				XCTAssertNotNil(resource, "Unable to access \(R.self) named resource: \(apiResource)")
+			}
+		} else {
+			XCTFail("Unable to access \(R.self) named resource list")
+		}
+	}
+
 	func testPokeAPILocal() {
 		let bundle = Bundle(for: type(of: self))
 		guard let url = bundle.url(forResource: "data", withExtension: nil) else {
@@ -12,55 +35,54 @@ final class PokeAPITests: XCTestCase {
 		do {
 			let pokeAPILocal = try PokeAPILocal(at: url)
 
-			XCTAssertNotNil(pokeAPILocal.ability(id: 1))
-			XCTAssertNotNil(pokeAPILocal.berry(id: 1))
-			XCTAssertNotNil(pokeAPILocal.berryFirmness(id: 1))
-			XCTAssertNotNil(pokeAPILocal.berryFlavor(id: 1))
-			XCTAssertNotNil(pokeAPILocal.contestEffect(id: 1))
-			XCTAssertNotNil(pokeAPILocal.contestType(id: 1))
-			XCTAssertNotNil(pokeAPILocal.superContestEffect(id: 1))
-			XCTAssertNotNil(pokeAPILocal.encounterCondition(id: 1))
-			XCTAssertNotNil(pokeAPILocal.encounterConditionValue(id: 1))
-			XCTAssertNotNil(pokeAPILocal.encounterMethod(id: 1))
-			XCTAssertNotNil(pokeAPILocal.evolutionChain(id: 1))
-			XCTAssertNotNil(pokeAPILocal.evolutionTrigger(id: 1))
-			XCTAssertNotNil(pokeAPILocal.generation(id: 1))
-			XCTAssertNotNil(pokeAPILocal.pokedex(id: 1))
-			XCTAssertNotNil(pokeAPILocal.version(id: 1))
-			XCTAssertNotNil(pokeAPILocal.versionGroup(id: 1))
-			XCTAssertNotNil(pokeAPILocal.item(id: 1))
-			XCTAssertNotNil(pokeAPILocal.itemAttribute(id: 1))
-			XCTAssertNotNil(pokeAPILocal.itemCategory(id: 1))
-			XCTAssertNotNil(pokeAPILocal.itemFlingEffect(id: 1))
-			XCTAssertNotNil(pokeAPILocal.itemPocket(id: 1))
-			XCTAssertNotNil(pokeAPILocal.location(id: 1))
-			XCTAssertNotNil(pokeAPILocal.locationArea(id: 1))
-			XCTAssertNotNil(pokeAPILocal.palParkArea(id: 1))
-			XCTAssertNotNil(pokeAPILocal.region(id: 1))
-			XCTAssertNotNil(pokeAPILocal.machine(id: 1))
-			XCTAssertNotNil(pokeAPILocal.move(id: 1))
-			XCTAssertNotNil(pokeAPILocal.moveAilment(id: 1))
-			XCTAssertNotNil(pokeAPILocal.moveBattleStyle(id: 1))
-			XCTAssertNotNil(pokeAPILocal.moveCategory(id: 1))
-			XCTAssertNotNil(pokeAPILocal.moveDamageClass(id: 1))
-			XCTAssertNotNil(pokeAPILocal.moveLearnMethod(id: 1))
-			XCTAssertNotNil(pokeAPILocal.moveTarget(id: 1))
-			XCTAssertNotNil(pokeAPILocal.ability(id: 1))
-			XCTAssertNotNil(pokeAPILocal.characteristic(id: 1))
-			XCTAssertNotNil(pokeAPILocal.eggGroup(id: 1))
-			XCTAssertNotNil(pokeAPILocal.gender(id: 1))
-			XCTAssertNotNil(pokeAPILocal.growthRate(id: 1))
-			XCTAssertNotNil(pokeAPILocal.nature(id: 1))
-			XCTAssertNotNil(pokeAPILocal.pokeathlonStat(id: 1))
-			XCTAssertNotNil(pokeAPILocal.pokemon(id: 1))
-			XCTAssertNotNil(pokeAPILocal.pokemonColor(id: 1))
-			XCTAssertNotNil(pokeAPILocal.pokemonForm(id: 1))
-			XCTAssertNotNil(pokeAPILocal.pokemonHabitat(id: 1))
-			XCTAssertNotNil(pokeAPILocal.pokemonShape(id: 1))
-			XCTAssertNotNil(pokeAPILocal.pokemonSpecies(id: 1))
-			XCTAssertNotNil(pokeAPILocal.stat(id: 1))
-			XCTAssertNotNil(pokeAPILocal.type(id: 1))
-			XCTAssertNotNil(pokeAPILocal.language(id: 1))
+			testNamedResource(pokeAPI: pokeAPILocal, Berry.self)
+			testNamedResource(pokeAPI: pokeAPILocal, BerryFirmness.self)
+			testNamedResource(pokeAPI: pokeAPILocal, BerryFlavor.self)
+			testResource(pokeAPI: pokeAPILocal, ContestEffect.self)
+			testNamedResource(pokeAPI: pokeAPILocal, ContestType.self)
+			testResource(pokeAPI: pokeAPILocal, SuperContestEffect.self)
+			testNamedResource(pokeAPI: pokeAPILocal, EncounterCondition.self)
+			testNamedResource(pokeAPI: pokeAPILocal, EncounterConditionValue.self)
+			testNamedResource(pokeAPI: pokeAPILocal, EncounterMethod.self)
+			testResource(pokeAPI: pokeAPILocal, EvolutionChain.self)
+			testNamedResource(pokeAPI: pokeAPILocal, EvolutionTrigger.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Generation.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Pokedex.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Version.self)
+			testNamedResource(pokeAPI: pokeAPILocal, VersionGroup.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Item.self)
+			testNamedResource(pokeAPI: pokeAPILocal, ItemAttribute.self)
+			testNamedResource(pokeAPI: pokeAPILocal, ItemCategory.self)
+			testNamedResource(pokeAPI: pokeAPILocal, ItemFlingEffect.self)
+			testNamedResource(pokeAPI: pokeAPILocal, ItemPocket.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Location.self)
+			testNamedResource(pokeAPI: pokeAPILocal, LocationArea.self)
+			testNamedResource(pokeAPI: pokeAPILocal, PalParkArea.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Region.self)
+			testResource(pokeAPI: pokeAPILocal, Machine.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Move.self)
+			testNamedResource(pokeAPI: pokeAPILocal, MoveAilment.self)
+			testNamedResource(pokeAPI: pokeAPILocal, MoveBattleStyle.self)
+			testNamedResource(pokeAPI: pokeAPILocal, MoveCategory.self)
+			testNamedResource(pokeAPI: pokeAPILocal, MoveDamageClass.self)
+			testNamedResource(pokeAPI: pokeAPILocal, MoveLearnMethod.self)
+			testNamedResource(pokeAPI: pokeAPILocal, MoveTarget.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Ability.self)
+			testResource(pokeAPI: pokeAPILocal, Characteristic.self)
+			testNamedResource(pokeAPI: pokeAPILocal, EggGroup.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Gender.self)
+			testNamedResource(pokeAPI: pokeAPILocal, GrowthRate.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Nature.self)
+			testNamedResource(pokeAPI: pokeAPILocal, PokeathlonStat.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Pokemon.self)
+			testNamedResource(pokeAPI: pokeAPILocal, PokemonColor.self)
+			testNamedResource(pokeAPI: pokeAPILocal, PokemonForm.self)
+			testNamedResource(pokeAPI: pokeAPILocal, PokemonHabitat.self)
+			testNamedResource(pokeAPI: pokeAPILocal, PokemonShape.self)
+			testNamedResource(pokeAPI: pokeAPILocal, PokemonSpecies.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Stat.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Type.self)
+			testNamedResource(pokeAPI: pokeAPILocal, Language.self)
 		} catch {
 			XCTFail(error.localizedDescription)
 		}

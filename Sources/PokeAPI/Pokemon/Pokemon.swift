@@ -119,12 +119,12 @@ public struct PokemonSprites : Codable {
 		case backShinyFemale  = "back_shiny_female"
 	}
 
-	public let frontDefault : String
-	public let frontShiny : String
+	public let frontDefault : String?
+	public let frontShiny : String?
 	public let frontFemale : String?
 	public let frontShinyFemale : String?
-	public let backDefault : String
-	public let backShiny : String
+	public let backDefault : String?
+	public let backShiny : String?
 	public let backFemale : String?
 	public let backShinyFemale : String?
 }

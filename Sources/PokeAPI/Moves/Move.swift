@@ -30,27 +30,27 @@ public struct Move : NamedResource {
 
 	public let id : Int
 	public let name : String
-	public let accuracy : Int
+	public let accuracy : Int?
 	public let effectChance : Int?
-	public let pp : Int
+	public let pp : Int?
 	public let priority : Int
-	public let power : Int
-	public let contestCombos : ContestComboSets
-	public let contestType : NamedAPIResource<ContestType>
-	public let contestEffect : APIResource<ContestEffect>
+	public let power : Int?
+	public let contestCombos : ContestComboSets?
+	public let contestType : NamedAPIResource<ContestType>?
+	public let contestEffect : APIResource<ContestEffect>?
 	public let damageClass : NamedAPIResource<MoveDamageClass>
 	public let effectEntries : Set<VerboseEffect>
 	public let effectChanges : Set<AbilityEffectChange>
 	public let flavorTextEntries : Set<MoveFlavorText>
 	public let generation : NamedAPIResource<Generation>
 	public let machines : Set<MachineVersionDetail>
-	public let meta : MoveMetaData
+	public let meta : MoveMetaData?
 	public let names : Set<Name>
 	public let pastValues : Set<PastMoveStatValues>
 	public let statChanges : Set<MoveStatChange>
-	public let superContestEffect : APIResource<SuperContestEffect>
+	public let superContestEffect : APIResource<SuperContestEffect>?
 	public let target : NamedAPIResource<MoveTarget>
-	public let type : NamedAPIResource<Type>
+	public let type : NamedAPIResource<Type>?
 }
 
 public struct ContestComboSets : Codable {
@@ -126,11 +126,11 @@ public struct PastMoveStatValues : Hashable, Codable {
 		case versionGroup  = "version_group"
 	}
 
-	public let accuracy : Int
-	public let effectChance : Int
-	public let power : Int
-	public let pp : Int
+	public let accuracy : Int?
+	public let effectChance : Int?
+	public let power : Int?
+	public let pp : Int?
 	public let effectEntries : Set<VerboseEffect>
-	public let type : NamedAPIResource<Type>
+	public let type : NamedAPIResource<Type>?
 	public let versionGroup : NamedAPIResource<VersionGroup>
 }

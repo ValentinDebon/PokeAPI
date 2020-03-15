@@ -41,9 +41,9 @@ public struct PokemonFormSprites : Codable {
 		case backShiny        = "back_shiny"
 	}
 
-	public let frontDefault : String
-	public let frontShiny : String
-	public let backDefault : String
-	public let backShiny : String
+	public let frontDefault : String?
+	public let frontShiny : String?
+	public let backDefault : String?
+	public let backShiny : String?
 }
 

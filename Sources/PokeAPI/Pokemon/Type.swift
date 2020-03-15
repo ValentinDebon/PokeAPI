@@ -19,7 +19,7 @@ public struct Type : NamedResource {
 	public let damageRelations : TypeRelations
 	public let gameIndices : Set<GenerationGameIndex>
 	public let generation : NamedAPIResource<Generation>
-	public let moveDamageClass : NamedAPIResource<MoveDamageClass>
+	public let moveDamageClass : NamedAPIResource<MoveDamageClass>?
 	public let names : Set<Name>
 	public let pokemon : Set<TypePokemon>
 	public let moves : Set<NamedAPIResource<Move>>
