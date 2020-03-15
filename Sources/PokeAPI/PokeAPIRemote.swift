@@ -19,17 +19,13 @@ public final class PokeAPIRemote : PokeAPIProtocol {
 		return URLSession(configuration: sessionConfiguration)
 	}
 
-	public let url : URL
-	public let session : URLSession
 	public var delegate : PokeAPIDelegate?
 
 	public init(at url: URL, session: URLSession = PokeAPIRemote.makeSession(), delegate: PokeAPIDelegate?) {
-		self.url = url
-		self.session = session
 		self.delegate = delegate
 	}
 
-	public func location(endpoint: String, id: String) -> String {
+	public func location(endpoint: String, id: String) -> String? {
 		fatalError("unimplemented")
 	}
 
@@ -37,3 +33,4 @@ public final class PokeAPIRemote : PokeAPIProtocol {
 		fatalError("unimplemented")
 	}
 }
+

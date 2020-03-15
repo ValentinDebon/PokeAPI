@@ -1,27 +1,32 @@
 
 public protocol PokeAPIDelegate : AnyObject {
-	func updatedResourceList<R>(pokeAPI: PokeAPIProtocol, withAPIResourceList APIResourceList: APIResourceList<R>) where R : Resource
-	func updatedNamedResourceList<R>(pokeAPI: PokeAPIProtocol, withAPIResourceList APIResourceList: NamedAPIResourceList<R>) where R : NamedResource
-	func updatedResource<R>(pokeAPI: PokeAPIProtocol, at location: String, withResource resource: R)
+	func updatedEndpoints(pokeAPI: PokeAPIProtocol, withEndpoints: [String : String])
+	func updatedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: Set<String>)
+	func updatedNamedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: [String : String])
+	func updatedResource(pokeAPI: PokeAPIProtocol, at location: String)
 }
 
 public protocol PokeAPIProtocol : AnyObject {
 	var delegate : PokeAPIDelegate? { get set }
-	func location(endpoint: String, id: String) -> String
+	func location(endpoint: String, id: String) -> String?
 	func resource<R>(at location: String) -> R? where R : Resource
 }
 
 public extension PokeAPIProtocol {
-	@inlinable func unnamed<R>(apiResource: APIResource<R>) -> R? where R : Resource {
+	@inlinable func unnamed<R>(_ apiResource: APIResource<R>) -> R? where R : Resource {
 		self.resource(at: apiResource.url)
 	}
 
-	@inlinable func named<R>(apiResource: NamedAPIResource<R>) -> R? where R : NamedResource {
+	@inlinable func named<R>(_ apiResource: NamedAPIResource<R>) -> R? where R : NamedResource {
 		self.resource(at: apiResource.url)
 	}
 
 	@inlinable func resource<R, S>(id: S) -> R? where R : Resource, S : LosslessStringConvertible {
-		self.resource(at: self.location(endpoint: R.endpoint, id: String(id)))
+		guard let location = self.location(endpoint: R.endpoint, id: String(id)) else {
+			return nil
+		}
+
+		return self.resource(at: location)
 	}
 
 	@inlinable func berry<S>(id: S) -> Berry? where S : LosslessStringConvertible {

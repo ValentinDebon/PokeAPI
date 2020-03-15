@@ -1,22 +1,10 @@
 
 public final class PokeAPI : PokeAPIProtocol {
-	private final class NamedResourcesList {
-		var count : Int
-		var results : [String : String]
-
-		init(count: Int, results: [String : String]) {
-			self.count = count
-			self.results = results
-		}
-	}
-
 	private let real : PokeAPIProtocol
-	private var namedResourcesLists : [String : NamedResourcesList]
 	private var resources : [String : Any]
 
 	init(real: PokeAPIProtocol) {
 		self.real = real
-		self.namedResourcesLists = [:]
 		self.resources = [:]
 	}
 
@@ -25,12 +13,20 @@ public final class PokeAPI : PokeAPIProtocol {
 		set { self.real.delegate = newValue }
 	}
 
-	public func location(endpoint: String, id: String) -> String {
-		/* TODO: Handle resource lists */
+	public func location(endpoint: String, id: String) -> String? {
 		self.real.location(endpoint: endpoint, id: id)
 	}
 
 	public func resource<R>(at location: String) -> R? where R : Resource {
-		fatalError("unimplemented")
+		if let cached = self.resources[location], let resource = cached as? R {
+			return resource
+		}
+
+		if let resource : R = self.real.resource(at: location) {
+			self.resources[location] = resource
+			return resource
+		}
+
+		return nil
 	}
 }
