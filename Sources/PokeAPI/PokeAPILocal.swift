@@ -7,7 +7,7 @@ public final class PokeAPILocal: PokeAPIProtocol {
 	private let decoder: JSONDecoder
 	private let endpoints: [String: String]
 
-	public init(at url: URL, index: String = "/api/v2") throws {
+	public init(at url: URL, index: String = "api/v2") throws {
 		self.url = url
 		self.decoder = JSONDecoder()
 		self.endpoints = try self.decoder.decode([String: String].self, from: Data(contentsOf: url.appendingPathComponent(index).appendingPathComponent(PokeAPILocal.indexFile)))
