@@ -1,6 +1,6 @@
 
 public struct PalParkArea: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case names
@@ -16,7 +16,7 @@ public struct PalParkArea: NamedResource {
 }
 
 public struct PalParkEncounterSpecies: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case baseScore      = "base_score"
 		case rate
 		case pokemonSpecies = "pokemon_species"

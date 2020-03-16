@@ -3,7 +3,7 @@ import XCTest
 
 final class PokeAPITests: XCTestCase {
 
-	func testResource<R, P>(pokeAPI: P, _ resource: R.Type) where R: Resource, P: PokeAPIProtocol {
+	func testResource<R, P>(pokeAPI: P, _ resource: R.Type) where R: Resource, P: PokeAPI {
 		if let apiResourceList: APIResourceList<R> = pokeAPI.resourceList() {
 			for apiResource in apiResourceList.results {
 				let resource: R? = pokeAPI.resource(at: apiResource.url)
@@ -14,7 +14,7 @@ final class PokeAPITests: XCTestCase {
 		}
 	}
 
-	func testNamedResource<R, P>(pokeAPI: P, _ resource: R.Type) where R: NamedResource, P: PokeAPIProtocol {
+	func testNamedResource<R, P>(pokeAPI: P, _ resource: R.Type) where R: NamedResource, P: PokeAPI {
 		if let apiResourceList: NamedAPIResourceList<R> = pokeAPI.namedResourceList() {
 			for apiResource in apiResourceList.results {
 				let resource: R? = pokeAPI.resource(at: apiResource.url)

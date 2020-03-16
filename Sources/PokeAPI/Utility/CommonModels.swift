@@ -14,7 +14,7 @@ public struct Effect: Localized {
 }
 
 public struct Encounter: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case minLevel        = "min_level"
 		case maxLevel        = "max_level"
 		case conditionValues = "condition_values"
@@ -30,7 +30,7 @@ public struct Encounter: Hashable, Codable {
 }
 
 public struct FlavorText: Localized {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case flavorText = "flavor_text"
 		case language
 		case version
@@ -42,7 +42,7 @@ public struct FlavorText: Localized {
 }
 
 public struct GenerationGameIndex: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case gameIndex = "game_index"
 		case generation
 	}
@@ -52,7 +52,7 @@ public struct GenerationGameIndex: Hashable, Codable {
 }
 
 public struct MachineVersionDetail: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case machine
 		case versionGroup = "version_group"
 	}
@@ -80,7 +80,7 @@ public struct NamedAPIResource<R: NamedResource>: Hashable, Codable {
 }
 
 public struct VerboseEffect: Localized {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case effect
 		case shortEffect = "short_effect"
 		case language
@@ -92,7 +92,7 @@ public struct VerboseEffect: Localized {
 }
 
 public struct VersionEncounterDetail: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case version
 		case maxChance        = "max_chance"
 		case encounterDetails = "encounter_details"
@@ -104,7 +104,7 @@ public struct VersionEncounterDetail: Hashable, Codable {
 }
 
 public struct VersionGameIndex: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case gameIndex = "game_index"
 		case version
 	}
@@ -114,7 +114,7 @@ public struct VersionGameIndex: Hashable, Codable {
 }
 
 public struct VersionGroupFlavorText: Localized {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case text
 		case language
 		case versionGroup = "version_group"

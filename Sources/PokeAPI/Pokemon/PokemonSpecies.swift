@@ -1,6 +1,6 @@
 
 public struct PokemonSpecies: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case order
@@ -63,7 +63,7 @@ public struct Genus: Localized {
 }
 
 public struct PokemonSpeciesDexEntry: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case entryNumber = "entry_number"
 		case pokedex
 	}
@@ -73,7 +73,7 @@ public struct PokemonSpeciesDexEntry: Hashable, Codable {
 }
 
 public struct PalParkEncounterArea: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case baseScore = "base_score"
 		case rate
 		case area
@@ -85,7 +85,7 @@ public struct PalParkEncounterArea: Hashable, Codable {
 }
 
 public struct PokemonSpeciesVariety: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case isDefault = "is_default"
 		case pokemon
 	}

@@ -1,6 +1,6 @@
 
 public struct Pokemon: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case baseExperience         = "base_experience"
@@ -42,7 +42,7 @@ public struct Pokemon: NamedResource {
 }
 
 public struct PokemonAbility: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case isHidden = "is_hidden"
 		case slot
 		case ability
@@ -59,7 +59,7 @@ public struct PokemonType: Hashable, Codable {
 }
 
 public struct PokemonHeldItem: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case item
 		case versionDetails = "version_details"
 	}
@@ -74,7 +74,7 @@ public struct PokemonHeldItemVersion: Hashable, Codable {
 }
 
 public struct PokemonMove: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case move
 		case versionGroupDetails = "version_group_details"
 	}
@@ -84,7 +84,7 @@ public struct PokemonMove: Hashable, Codable {
 }
 
 public struct PokemonMoveVersion: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case moveLearnMethod = "move_learn_method"
 		case versionGroup    = "version_group"
 		case levelLearnedAt  = "level_learned_at"
@@ -96,7 +96,7 @@ public struct PokemonMoveVersion: Hashable, Codable {
 }
 
 public struct PokemonStat: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case stat
 		case effort
 		case baseStat = "base_stat"
@@ -108,7 +108,7 @@ public struct PokemonStat: Hashable, Codable {
 }
 
 public struct PokemonSprites: Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case frontDefault     = "front_default"
 		case frontShiny       = "front_shiny"
 		case frontFemale      = "front_female"
@@ -130,7 +130,7 @@ public struct PokemonSprites: Codable {
 }
 
 public struct LocationAreaEncounter: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case locationArea   = "location_area"
 		case versionDetails = "version_details"
 	}

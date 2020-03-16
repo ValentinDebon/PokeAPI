@@ -1,6 +1,6 @@
 
 public struct Ability: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case isMainSeries      = "is_main_series"
@@ -26,7 +26,7 @@ public struct Ability: NamedResource {
 }
 
 public struct AbilityEffectChange: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case effectEntries = "effect_entries"
 		case versionGroup  = "version_group"
 	}
@@ -36,7 +36,7 @@ public struct AbilityEffectChange: Hashable, Codable {
 }
 
 public struct AbilityFlavorText: Localized {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case flavorText    = "flavor_text"
 		case language
 		case versionGroup  = "version_group"
@@ -48,7 +48,7 @@ public struct AbilityFlavorText: Localized {
 }
 
 public struct AbilityPokemon: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case isHidden = "is_hidden"
 		case slot
 		case pokemon

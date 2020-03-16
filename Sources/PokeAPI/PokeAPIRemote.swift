@@ -1,13 +1,13 @@
 import Foundation
 
 public protocol PokeAPIDelegate: AnyObject {
-	func updatedEndpoints(pokeAPI: PokeAPIProtocol, withEndpoints: [String: String])
-	func updatedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: Set<String>)
-	func updatedNamedResourceList(pokeAPI: PokeAPIProtocol, endpoint: String, withCount: Int, results: [String: String])
-	func updatedResource(pokeAPI: PokeAPIProtocol, at location: String)
+	func updatedEndpoints(pokeAPI: PokeAPI, withEndpoints: [String: String])
+	func updatedResourceList(pokeAPI: PokeAPI, endpoint: String, withCount: Int, results: Set<String>)
+	func updatedNamedResourceList(pokeAPI: PokeAPI, endpoint: String, withCount: Int, results: [String: String])
+	func updatedResource(pokeAPI: PokeAPI, at location: String)
 }
 
-public final class PokeAPIRemote: PokeAPIProtocol {
+public final class PokeAPIRemote: PokeAPI {
 	public static func makeURL() -> URL? {
 		try? FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
 	}

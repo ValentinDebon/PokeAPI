@@ -1,6 +1,6 @@
 import Foundation
 
-public final class PokeAPILocal: PokeAPIProtocol {
+public final class PokeAPILocal: PokeAPI {
 	public static let indexFile = "index.json"
 
 	private let url: URL

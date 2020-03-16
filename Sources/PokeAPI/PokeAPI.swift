@@ -1,76 +1,219 @@
 
-public final class PokeAPI: PokeAPIProtocol {
-	private let real: PokeAPIProtocol
-	private var resources: [String: Any]
-	private var locationAreaEncounters: [Int: Set<LocationAreaEncounter>]
+public protocol PokeAPI: AnyObject {
+	func location(endpoint: String, id: String?) -> String?
+	func resource<R>(at location: String) -> R? where R: Resource
+	func locationAreaEncounters(pokemon: Pokemon) -> Set<LocationAreaEncounter>?
+	func resourceList<R>() -> APIResourceList<R>? where R: Resource
+	func namedResourceList<R>() -> NamedAPIResourceList<R>? where R: NamedResource
+}
 
-	init(real: PokeAPIProtocol) {
-		self.real = real
-		self.resources = [:]
-		self.locationAreaEncounters = [:]
+public extension PokeAPI {
+	@inlinable func unnamed<R>(_ apiResource: APIResource<R>) -> R? where R: Resource {
+		self.resource(at: apiResource.url)
 	}
 
-	public func location(endpoint: String, id: String? = nil) -> String? {
-		self.real.location(endpoint: endpoint, id: id)
+	@inlinable func named<R>(_ apiResource: NamedAPIResource<R>) -> R? where R: NamedResource {
+		self.resource(at: apiResource.url)
 	}
 
-	public func resource<R>(at location: String) -> R? where R: Resource {
-		if let cached = self.resources[location], let resource = cached as? R {
-			return resource
-		}
-
-		if let resource: R = self.real.resource(at: location) {
-			self.resources[location] = resource
-			return resource
-		}
-
-		return nil
-	}
-	
-	public func locationAreaEncounters(pokemon: Pokemon) -> Set<LocationAreaEncounter>? {
-		if let locationAreaEncounters = self.locationAreaEncounters[pokemon.id] {
-			return locationAreaEncounters
-		}
-
-		if let locationAreaEncounters = self.real.locationAreaEncounters(pokemon: pokemon) {
-			self.locationAreaEncounters[pokemon.id] = locationAreaEncounters
-			return locationAreaEncounters
-		}
-
-		return nil
-	}
-
-	public func resourceList<R>() -> APIResourceList<R>? where R: Resource {
-		guard let location = self.location(endpoint: R.endpoint) else {
+	@inlinable func resource<R, S>(id: S) -> R? where R: Resource, S: LosslessStringConvertible {
+		guard let location = self.location(endpoint: R.endpoint, id: String(id)) else {
 			return nil
 		}
 
-		if let cached = self.resources[location], let resourceList = cached as? APIResourceList<R> {
-			return resourceList
-		}
-
-		if let resourceList: APIResourceList<R> = self.real.resourceList() {
-			self.resources[location] = resourceList
-			return resourceList
-		}
-
-		return nil
+		return self.resource(at: location)
 	}
 
-	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R: NamedResource {
-		guard let location = self.location(endpoint: R.endpoint) else {
-			return nil
-		}
+	@inlinable func berry<S>(id: S) -> Berry? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
 
-		if let cached = self.resources[location], let namedResourceList = cached as? NamedAPIResourceList<R> {
-			return namedResourceList
-		}
+	@inlinable func berryFirmness<S>(id: S) -> BerryFirmness? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
 
-		if let namedResourceList: NamedAPIResourceList<R> = self.real.namedResourceList() {
-			self.resources[location] = namedResourceList
-			return namedResourceList
-		}
+	@inlinable func berryFlavor<S>(id: S) -> BerryFlavor? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
 
-		return nil
+	@inlinable func contestEffect<S>(id: S) -> ContestEffect? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func contestType<S>(id: S) -> ContestType? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func superContestEffect<S>(id: S) -> SuperContestEffect? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func encounterCondition<S>(id: S) -> EncounterCondition? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func encounterConditionValue<S>(id: S) -> EncounterConditionValue? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func encounterMethod<S>(id: S) -> EncounterMethod? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func evolutionChain<S>(id: S) -> EvolutionChain? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func evolutionTrigger<S>(id: S) -> EvolutionTrigger? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func generation<S>(id: S) -> Generation? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func pokedex<S>(id: S) -> Pokedex? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func version<S>(id: S) -> Version? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func versionGroup<S>(id: S) -> VersionGroup? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func item<S>(id: S) -> Item? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func itemAttribute<S>(id: S) -> ItemAttribute? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func itemCategory<S>(id: S) -> ItemCategory? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func itemFlingEffect<S>(id: S) -> ItemFlingEffect? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func itemPocket<S>(id: S) -> ItemPocket? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func location<S>(id: S) -> Location? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func locationArea<S>(id: S) -> LocationArea? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func palParkArea<S>(id: S) -> PalParkArea? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func region<S>(id: S) -> Region? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func machine<S>(id: S) -> Machine? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func move<S>(id: S) -> Move? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func moveAilment<S>(id: S) -> MoveAilment? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func moveBattleStyle<S>(id: S) -> MoveBattleStyle? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func moveCategory<S>(id: S) -> MoveCategory? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func moveDamageClass<S>(id: S) -> MoveDamageClass? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func moveLearnMethod<S>(id: S) -> MoveLearnMethod? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func moveTarget<S>(id: S) -> MoveTarget? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func ability<S>(id: S) -> Ability? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func characteristic<S>(id: S) -> Characteristic? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func eggGroup<S>(id: S) -> EggGroup? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func gender<S>(id: S) -> Gender? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func growthRate<S>(id: S) -> GrowthRate? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func nature<S>(id: S) -> Nature? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func pokeathlonStat<S>(id: S) -> PokeathlonStat? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func pokemon<S>(id: S) -> Pokemon? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func pokemonColor<S>(id: S) -> PokemonColor? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func pokemonForm<S>(id: S) -> PokemonForm? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func pokemonHabitat<S>(id: S) -> PokemonHabitat? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func pokemonShape<S>(id: S) -> PokemonShape? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func pokemonSpecies<S>(id: S) -> PokemonSpecies? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func stat<S>(id: S) -> Stat? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func type<S>(id: S) -> Type? where S: LosslessStringConvertible {
+		self.resource(id: id)
+	}
+
+	@inlinable func language<S>(id: S) -> Language? where S: LosslessStringConvertible {
+		self.resource(id: id)
 	}
 }
+

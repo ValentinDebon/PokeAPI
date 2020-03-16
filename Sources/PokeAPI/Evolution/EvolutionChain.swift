@@ -1,6 +1,6 @@
 
 public struct EvolutionChain: Resource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case babyTriggerItem = "baby_trigger_item"
 		case chain
@@ -14,7 +14,7 @@ public struct EvolutionChain: Resource {
 }
 
 public struct ChainLink: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case isBaby           = "is_baby"
 		case species
 		case evolutionDetails = "evolution_details"
@@ -28,7 +28,7 @@ public struct ChainLink: Hashable, Codable {
 }
 
 public struct EvolutionDetail: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case item
 		case trigger
 		case gender

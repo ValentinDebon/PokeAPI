@@ -1,6 +1,6 @@
 
 public struct ItemFlingEffect: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case effectEntries = "effect_entries"

@@ -1,6 +1,6 @@
 
 public struct Nature: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case decreasedStat              = "decreased_stat"
@@ -26,7 +26,7 @@ public struct Nature: NamedResource {
 }
 
 public struct NatureStatChange: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case maxChange      = "max_change"
 		case pokeathlonStat = "pokeathlon_stat"
 	}
@@ -36,7 +36,7 @@ public struct NatureStatChange: Hashable, Codable {
 }
 
 public struct MoveBattleStylePreference: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case lowHpPreference  = "low_hp_preference"
 		case highHpPreference = "high_hp_preference"
 		case moveBattleStyle  = "move_battle_style"

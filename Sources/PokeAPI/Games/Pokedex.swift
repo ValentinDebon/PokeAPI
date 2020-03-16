@@ -1,6 +1,6 @@
 
 public struct Pokedex: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case isMainSeries   = "is_main_series"
@@ -24,7 +24,7 @@ public struct Pokedex: NamedResource {
 }
 
 public struct PokemonEntry: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case entryNumber    = "entry_number"
 		case pokemonSpecies = "pokemon_species"
 	}

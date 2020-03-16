@@ -1,6 +1,6 @@
 
 public struct PokeathlonStat: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case names
@@ -21,7 +21,7 @@ public struct NaturePokeathlonStatAffectSets: Codable {
 }
 
 public struct NaturePokeathlonStatAffect: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case maxChange = "max_change"
 		case nature
 	}

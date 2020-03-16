@@ -1,6 +1,6 @@
 
 public struct SuperContestEffect: Resource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case appeal
 		case flavorTextEntries = "flavor_text_entries"

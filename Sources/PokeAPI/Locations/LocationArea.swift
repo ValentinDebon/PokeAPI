@@ -1,6 +1,6 @@
 
 public struct LocationArea: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case gameIndex            = "game_index"
@@ -22,7 +22,7 @@ public struct LocationArea: NamedResource {
 }
 
 public struct EncounterMethodRate: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case encounterMethod = "encounter_method"
 		case versionDetails  = "version_details"
 	}
@@ -37,7 +37,7 @@ public struct EncounterVersionDetails: Hashable, Codable {
 }
 
 public struct PokemonEncounter: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case pokemon
 		case versionDetails  = "version_details"
 	}

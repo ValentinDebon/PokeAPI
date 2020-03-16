@@ -1,6 +1,6 @@
 
 public struct ContestType: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case berryFlavor = "berry_flavor"

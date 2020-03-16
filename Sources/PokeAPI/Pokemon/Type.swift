@@ -1,6 +1,6 @@
 
 public struct Type: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case damageRelations = "damage_relations"
@@ -31,7 +31,7 @@ public struct TypePokemon: Hashable, Codable {
 }
 
 public struct TypeRelations: Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case noDamageTo       = "no_damage_to"
 		case halfDamageTo     = "half_damage_to"
 		case doubleDamageTo   = "double_damage_to"

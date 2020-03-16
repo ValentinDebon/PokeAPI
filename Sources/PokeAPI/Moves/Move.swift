@@ -1,6 +1,6 @@
 
 public struct Move: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case accuracy
@@ -59,7 +59,7 @@ public struct ContestComboSets: Codable {
 }
 
 public struct ContestComboDetail: Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case useBefore = "use_before"
 		case useAfter  = "use_after"
 	}
@@ -69,7 +69,7 @@ public struct ContestComboDetail: Codable {
 }
 
 public struct MoveFlavorText: Localized {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case flavorText   = "flavor_text"
 		case language
 		case versionGroup = "version_group"
@@ -81,7 +81,7 @@ public struct MoveFlavorText: Localized {
 }
 
 public struct MoveMetaData: Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case ailment
 		case category
 		case minHits       = "min_hits"
@@ -116,7 +116,7 @@ public struct MoveStatChange: Hashable, Codable {
 }
 
 public struct PastMoveStatValues: Hashable, Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case accuracy
 		case effectChance  = "effect_chance"
 		case power

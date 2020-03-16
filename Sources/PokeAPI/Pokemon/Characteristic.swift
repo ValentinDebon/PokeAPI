@@ -1,6 +1,6 @@
 
 public struct Characteristic: Resource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case geneModulo     = "gene_modulo"
 		case possibleValues = "possible_values"

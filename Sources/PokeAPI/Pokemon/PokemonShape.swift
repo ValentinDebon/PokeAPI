@@ -1,6 +1,6 @@
 
 public struct PokemonShape: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case awesomeNames   = "awesome_names"
@@ -18,7 +18,7 @@ public struct PokemonShape: NamedResource {
 }
 
 public struct AwesomeName: Localized {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case awesomeName = "awesome_name"
 		case language
 	}

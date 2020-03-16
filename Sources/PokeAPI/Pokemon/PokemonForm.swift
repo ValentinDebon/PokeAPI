@@ -1,6 +1,6 @@
 
 public struct PokemonForm: NamedResource {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case order
@@ -34,7 +34,7 @@ public struct PokemonForm: NamedResource {
 }
 
 public struct PokemonFormSprites: Codable {
-	public enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case frontDefault     = "front_default"
 		case frontShiny       = "front_shiny"
 		case backDefault      = "back_default"
