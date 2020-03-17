@@ -4,7 +4,7 @@ Swift binding for the PokeAPI.
 
 ## Progress
 
-- [ ] PokeAPI Proxy - needs tests and path normalization
+- [x] PokeAPI Proxy
 - [x] PokeAPI static content
 - [ ] PokeAPI online content - needs delegation and asynchronous answer system
 

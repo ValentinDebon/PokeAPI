@@ -25,6 +25,57 @@ final class PokeAPITests: XCTestCase {
 		}
 	}
 
+	func testPokeAPI<P>(pokeAPI: P) where P : PokeAPI {
+		testNamedResource(pokeAPI: pokeAPI, Berry.self)
+		testNamedResource(pokeAPI: pokeAPI, BerryFirmness.self)
+		testNamedResource(pokeAPI: pokeAPI, BerryFlavor.self)
+		testResource(pokeAPI: pokeAPI, ContestEffect.self)
+		testNamedResource(pokeAPI: pokeAPI, ContestType.self)
+		testResource(pokeAPI: pokeAPI, SuperContestEffect.self)
+		testNamedResource(pokeAPI: pokeAPI, EncounterCondition.self)
+		testNamedResource(pokeAPI: pokeAPI, EncounterConditionValue.self)
+		testNamedResource(pokeAPI: pokeAPI, EncounterMethod.self)
+		testResource(pokeAPI: pokeAPI, EvolutionChain.self)
+		testNamedResource(pokeAPI: pokeAPI, EvolutionTrigger.self)
+		testNamedResource(pokeAPI: pokeAPI, Generation.self)
+		testNamedResource(pokeAPI: pokeAPI, Pokedex.self)
+		testNamedResource(pokeAPI: pokeAPI, Version.self)
+		testNamedResource(pokeAPI: pokeAPI, VersionGroup.self)
+		testNamedResource(pokeAPI: pokeAPI, Item.self)
+		testNamedResource(pokeAPI: pokeAPI, ItemAttribute.self)
+		testNamedResource(pokeAPI: pokeAPI, ItemCategory.self)
+		testNamedResource(pokeAPI: pokeAPI, ItemFlingEffect.self)
+		testNamedResource(pokeAPI: pokeAPI, ItemPocket.self)
+		testNamedResource(pokeAPI: pokeAPI, Location.self)
+		testNamedResource(pokeAPI: pokeAPI, LocationArea.self)
+		testNamedResource(pokeAPI: pokeAPI, PalParkArea.self)
+		testNamedResource(pokeAPI: pokeAPI, Region.self)
+		testResource(pokeAPI: pokeAPI, Machine.self)
+		testNamedResource(pokeAPI: pokeAPI, Move.self)
+		testNamedResource(pokeAPI: pokeAPI, MoveAilment.self)
+		testNamedResource(pokeAPI: pokeAPI, MoveBattleStyle.self)
+		testNamedResource(pokeAPI: pokeAPI, MoveCategory.self)
+		testNamedResource(pokeAPI: pokeAPI, MoveDamageClass.self)
+		testNamedResource(pokeAPI: pokeAPI, MoveLearnMethod.self)
+		testNamedResource(pokeAPI: pokeAPI, MoveTarget.self)
+		testNamedResource(pokeAPI: pokeAPI, Ability.self)
+		testResource(pokeAPI: pokeAPI, Characteristic.self)
+		testNamedResource(pokeAPI: pokeAPI, EggGroup.self)
+		testNamedResource(pokeAPI: pokeAPI, Gender.self)
+		testNamedResource(pokeAPI: pokeAPI, GrowthRate.self)
+		testNamedResource(pokeAPI: pokeAPI, Nature.self)
+		testNamedResource(pokeAPI: pokeAPI, PokeathlonStat.self)
+		testNamedResource(pokeAPI: pokeAPI, Pokemon.self)
+		testNamedResource(pokeAPI: pokeAPI, PokemonColor.self)
+		testNamedResource(pokeAPI: pokeAPI, PokemonForm.self)
+		testNamedResource(pokeAPI: pokeAPI, PokemonHabitat.self)
+		testNamedResource(pokeAPI: pokeAPI, PokemonShape.self)
+		testNamedResource(pokeAPI: pokeAPI, PokemonSpecies.self)
+		testNamedResource(pokeAPI: pokeAPI, Stat.self)
+		testNamedResource(pokeAPI: pokeAPI, Type.self)
+		testNamedResource(pokeAPI: pokeAPI, Language.self)
+	}
+
 	func testPokeAPILocal() {
 		guard let url = Bundle(for: type(of: self)).resourceURL else {
 			XCTFail("Invalid url")
@@ -33,61 +84,28 @@ final class PokeAPITests: XCTestCase {
 
 		do {
 			let pokeAPILocal = try PokeAPILocal(at: url)
-
-			testNamedResource(pokeAPI: pokeAPILocal, Berry.self)
-			testNamedResource(pokeAPI: pokeAPILocal, BerryFirmness.self)
-			testNamedResource(pokeAPI: pokeAPILocal, BerryFlavor.self)
-			testResource(pokeAPI: pokeAPILocal, ContestEffect.self)
-			testNamedResource(pokeAPI: pokeAPILocal, ContestType.self)
-			testResource(pokeAPI: pokeAPILocal, SuperContestEffect.self)
-			testNamedResource(pokeAPI: pokeAPILocal, EncounterCondition.self)
-			testNamedResource(pokeAPI: pokeAPILocal, EncounterConditionValue.self)
-			testNamedResource(pokeAPI: pokeAPILocal, EncounterMethod.self)
-			testResource(pokeAPI: pokeAPILocal, EvolutionChain.self)
-			testNamedResource(pokeAPI: pokeAPILocal, EvolutionTrigger.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Generation.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Pokedex.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Version.self)
-			testNamedResource(pokeAPI: pokeAPILocal, VersionGroup.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Item.self)
-			testNamedResource(pokeAPI: pokeAPILocal, ItemAttribute.self)
-			testNamedResource(pokeAPI: pokeAPILocal, ItemCategory.self)
-			testNamedResource(pokeAPI: pokeAPILocal, ItemFlingEffect.self)
-			testNamedResource(pokeAPI: pokeAPILocal, ItemPocket.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Location.self)
-			testNamedResource(pokeAPI: pokeAPILocal, LocationArea.self)
-			testNamedResource(pokeAPI: pokeAPILocal, PalParkArea.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Region.self)
-			testResource(pokeAPI: pokeAPILocal, Machine.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Move.self)
-			testNamedResource(pokeAPI: pokeAPILocal, MoveAilment.self)
-			testNamedResource(pokeAPI: pokeAPILocal, MoveBattleStyle.self)
-			testNamedResource(pokeAPI: pokeAPILocal, MoveCategory.self)
-			testNamedResource(pokeAPI: pokeAPILocal, MoveDamageClass.self)
-			testNamedResource(pokeAPI: pokeAPILocal, MoveLearnMethod.self)
-			testNamedResource(pokeAPI: pokeAPILocal, MoveTarget.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Ability.self)
-			testResource(pokeAPI: pokeAPILocal, Characteristic.self)
-			testNamedResource(pokeAPI: pokeAPILocal, EggGroup.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Gender.self)
-			testNamedResource(pokeAPI: pokeAPILocal, GrowthRate.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Nature.self)
-			testNamedResource(pokeAPI: pokeAPILocal, PokeathlonStat.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Pokemon.self)
-			testNamedResource(pokeAPI: pokeAPILocal, PokemonColor.self)
-			testNamedResource(pokeAPI: pokeAPILocal, PokemonForm.self)
-			testNamedResource(pokeAPI: pokeAPILocal, PokemonHabitat.self)
-			testNamedResource(pokeAPI: pokeAPILocal, PokemonShape.self)
-			testNamedResource(pokeAPI: pokeAPILocal, PokemonSpecies.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Stat.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Type.self)
-			testNamedResource(pokeAPI: pokeAPILocal, Language.self)
+			testPokeAPI(pokeAPI: pokeAPILocal)
 		} catch {
 			XCTFail(error.localizedDescription)
 		}
 	}
-	
+
+	func testPokeAPIProxy() {
+		guard let url = Bundle(for: type(of: self)).resourceURL else {
+			XCTFail("Invalid url")
+			return
+		}
+
+		do {
+			let pokeAPIProxy = PokeAPIProxy(real: try PokeAPILocal(at: url), resourcesCountLimit: 1, locationAreaEncountersCountLimit: 1)
+			testPokeAPI(pokeAPI: pokeAPIProxy)
+		} catch {
+			XCTFail(error.localizedDescription)
+		}
+	}
+
 	static var allTests = [
-		("testPokeAPILocal", testPokeAPILocal)
+		("testPokeAPILocal", testPokeAPILocal),
+		("testPokeAPIProxy", testPokeAPIProxy),
 	]
 }

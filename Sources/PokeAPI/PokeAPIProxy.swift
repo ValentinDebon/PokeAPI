@@ -1,13 +1,28 @@
 
 public final class PokeAPIProxy: PokeAPI {
 	private let real: PokeAPI
-	private var resources: [String: Any]
+	private let resourcesCountLimit : Int
+	private let locationAreaEncountersCountLimit : Int
+	private var resources: [[Substring]: Any]
 	private var locationAreaEncounters: [Int: Set<LocationAreaEncounter>]
 
-	init(real: PokeAPI) {
+	init(real: PokeAPI, resourcesCountLimit: Int = Int.max, locationAreaEncountersCountLimit: Int = Int.max) {
 		self.real = real
+		self.resourcesCountLimit = resourcesCountLimit
+		self.locationAreaEncountersCountLimit = locationAreaEncountersCountLimit
 		self.resources = [:]
 		self.locationAreaEncounters = [:]
+	}
+
+	private func cachedLocation(for location: String) -> [Substring] {
+		location.split(separator: "/", omittingEmptySubsequences: true)
+	}
+
+	private func checkResourceUsage() {
+		if self.resources.count >= self.resourcesCountLimit,
+			let (removedKey, _) = self.resources.randomElement() {
+			self.resources.removeValue(forKey: removedKey)
+		}
 	}
 
 	public func location(endpoint: String, id: String? = nil) -> String? {
@@ -15,12 +30,15 @@ public final class PokeAPIProxy: PokeAPI {
 	}
 
 	public func resource<R>(at location: String) -> R? where R: Resource {
-		if let cached = self.resources[location], let resource = cached as? R {
+		let cachedLocation = self.cachedLocation(for: location)
+
+		if let cached = self.resources[cachedLocation], let resource = cached as? R {
 			return resource
 		}
 
 		if let resource: R = self.real.resource(at: location) {
-			self.resources[location] = resource
+			self.checkResourceUsage()
+			self.resources[cachedLocation] = resource
 			return resource
 		}
 
@@ -33,6 +51,11 @@ public final class PokeAPIProxy: PokeAPI {
 		}
 
 		if let locationAreaEncounters = self.real.locationAreaEncounters(pokemon: pokemon) {
+			if self.locationAreaEncounters.count >= self.locationAreaEncountersCountLimit,
+				let (removedKey, _) = self.locationAreaEncounters.randomElement() {
+				self.locationAreaEncounters.removeValue(forKey: removedKey)
+			}
+
 			self.locationAreaEncounters[pokemon.id] = locationAreaEncounters
 			return locationAreaEncounters
 		}
@@ -45,12 +68,14 @@ public final class PokeAPIProxy: PokeAPI {
 			return nil
 		}
 
-		if let cached = self.resources[location], let resourceList = cached as? APIResourceList<R> {
+		let cachedLocation = self.cachedLocation(for: location)
+		if let cached = self.resources[cachedLocation], let resourceList = cached as? APIResourceList<R> {
 			return resourceList
 		}
 
 		if let resourceList: APIResourceList<R> = self.real.resourceList() {
-			self.resources[location] = resourceList
+			self.checkResourceUsage()
+			self.resources[cachedLocation] = resourceList
 			return resourceList
 		}
 
@@ -62,12 +87,14 @@ public final class PokeAPIProxy: PokeAPI {
 			return nil
 		}
 
-		if let cached = self.resources[location], let namedResourceList = cached as? NamedAPIResourceList<R> {
+		let cachedLocation = self.cachedLocation(for: location)
+		if let cached = self.resources[cachedLocation], let namedResourceList = cached as? NamedAPIResourceList<R> {
 			return namedResourceList
 		}
 
 		if let namedResourceList: NamedAPIResourceList<R> = self.real.namedResourceList() {
-			self.resources[location] = namedResourceList
+			self.checkResourceUsage()
+			self.resources[cachedLocation] = namedResourceList
 			return namedResourceList
 		}
 
