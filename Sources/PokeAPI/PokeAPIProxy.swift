@@ -6,7 +6,7 @@ public final class PokeAPIProxy: PokeAPI {
 	private var resources: [[Substring]: Any]
 	private var locationAreaEncounters: [Int: Set<LocationAreaEncounter>]
 
-	init(real: PokeAPI, resourcesCountLimit: Int = Int.max, locationAreaEncountersCountLimit: Int = Int.max) {
+	public init(real: PokeAPI, resourcesCountLimit: Int = Int.max, locationAreaEncountersCountLimit: Int = Int.max) {
 		self.real = real
 		self.resourcesCountLimit = resourcesCountLimit
 		self.locationAreaEncountersCountLimit = locationAreaEncountersCountLimit
