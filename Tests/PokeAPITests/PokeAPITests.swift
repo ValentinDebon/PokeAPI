@@ -3,26 +3,44 @@ import XCTest
 
 final class PokeAPITests: XCTestCase {
 
-	func testResource<R, P>(pokeAPI: P, _ resource: R.Type) where R: Resource, P: PokeAPI {
-		if let apiResourceList: APIResourceList<R> = pokeAPI.resourceList() {
-			for apiResource in apiResourceList.results {
-				let resource: R? = pokeAPI.resource(at: apiResource.url)
-				XCTAssertNotNil(resource, "Unable to access \(R.self) resource: \(apiResource)")
+	func testResource<R, P>(pokeAPI: P, _ resourceType: R.Type) where R: Resource, P: PokeAPI {
+		pokeAPI.resourceList({
+			switch $0 {
+				case .success(let resourceList):
+					for result in resourceList.results {
+						pokeAPI.resource(atLocation: result.url, {
+							switch $0 {
+								case .failure(let error):
+									XCTFail("Unable to access \(result) resource: \(error)")
+								default:
+									break
+							}
+						} as (Result<R, P.Failure>) -> Void)
+					}
+				case .failure(let error):
+					XCTFail("Unable to access \(R.self) resource list: \(error)")
 			}
-		} else {
-			XCTFail("Unable to access \(R.self) resource list")
-		}
+		} as (Result<APIResourceList<R>, P.Failure>) -> Void)
 	}
 
-	func testNamedResource<R, P>(pokeAPI: P, _ resource: R.Type) where R: NamedResource, P: PokeAPI {
-		if let apiResourceList: NamedAPIResourceList<R> = pokeAPI.namedResourceList() {
-			for apiResource in apiResourceList.results {
-				let resource: R? = pokeAPI.resource(at: apiResource.url)
-				XCTAssertNotNil(resource, "Unable to access \(R.self) named resource: \(apiResource)")
+	func testNamedResource<R, P>(pokeAPI: P, _ resourceType: R.Type) where R: NamedResource, P: PokeAPI {
+		pokeAPI.namedResourceList({
+			switch $0 {
+				case .success(let resourceList):
+					for result in resourceList.results {
+						pokeAPI.resource(atLocation: result.url, {
+							switch $0 {
+								case .failure(let error):
+									XCTFail("Unable to access \(result) resource: \(error)")
+								default:
+									break
+							}
+						} as (Result<R, P.Failure>) -> Void)
+					}
+				case .failure(let error):
+					XCTFail("Unable to access \(R.self) resource list: \(error)")
 			}
-		} else {
-			XCTFail("Unable to access \(R.self) named resource list")
-		}
+		} as (Result<NamedAPIResourceList<R>, P.Failure>) -> Void)
 	}
 
 	func testPokeAPI<P>(pokeAPI: P) where P : PokeAPI {
@@ -82,12 +100,7 @@ final class PokeAPITests: XCTestCase {
 			return
 		}
 
-		do {
-			let pokeAPILocal = try PokeAPILocal(at: url)
-			testPokeAPI(pokeAPI: pokeAPILocal)
-		} catch {
-			XCTFail(error.localizedDescription)
-		}
+		testPokeAPI(pokeAPI: PokeAPILocal(at: url))
 	}
 
 	func testPokeAPIProxy() {
@@ -96,12 +109,7 @@ final class PokeAPITests: XCTestCase {
 			return
 		}
 
-		do {
-			let pokeAPIProxy = PokeAPIProxy(real: try PokeAPILocal(at: url), resourcesCountLimit: 1, locationAreaEncountersCountLimit: 1)
-			testPokeAPI(pokeAPI: pokeAPIProxy)
-		} catch {
-			XCTFail(error.localizedDescription)
-		}
+		testPokeAPI(pokeAPI: PokeAPIProxy(realAPI: PokeAPILocal(at: url)))
 	}
 
 	static var allTests = [

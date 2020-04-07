@@ -1,103 +1,138 @@
 
-public final class PokeAPIProxy: PokeAPI {
-	private let real: PokeAPI
-	private let resourcesCountLimit : Int
-	private let locationAreaEncountersCountLimit : Int
-	private var resources: [[Substring]: Any]
-	private var locationAreaEncounters: [Int: Set<LocationAreaEncounter>]
+fileprivate extension APIResourceList {
+	mutating func preceded(by resourceList: Self?) {
+		self.previous = nil
+		self.next = nil
 
-	public init(real: PokeAPI, resourcesCountLimit: Int = Int.max, locationAreaEncountersCountLimit: Int = Int.max) {
-		self.real = real
-		self.resourcesCountLimit = resourcesCountLimit
-		self.locationAreaEncountersCountLimit = locationAreaEncountersCountLimit
+		if let previousResults = resourceList?.results {
+			self.results.formUnion(previousResults)
+		}
+	}
+}
+
+fileprivate extension NamedAPIResourceList {
+	mutating func preceded(by resourceList: Self?) {
+		self.previous = nil
+		self.next = nil
+
+		if let previousResults = resourceList?.results {
+			self.results.formUnion(previousResults)
+		}
+	}
+}
+
+public final class PokeAPIProxy<RealAPI : PokeAPI> : PokeAPI {
+	public typealias Failure = RealAPI.Failure
+
+	private let realAPI : RealAPI
+	private var endpoints : [String : String]
+	private var resources : [String : Any]
+	private var locationAreaEncounters : [Int : Set<LocationAreaEncounter>]
+
+	public init(realAPI: RealAPI) {
+		self.realAPI = realAPI
+		self.endpoints = [:]
 		self.resources = [:]
 		self.locationAreaEncounters = [:]
 	}
 
-	private func cachedLocation(for location: String) -> [Substring] {
-		location.split(separator: "/", omittingEmptySubsequences: true)
-	}
+	public func endpoints(_ completion: (Result<[String : String], Failure>) -> Void) {
+		if self.endpoints.isEmpty {
+			self.realAPI.endpoints {
+				switch $0 {
+				case .success(let endpoints):
+					self.endpoints = endpoints
+				default:
+					break
+				}
 
-	private func checkResourceUsage() {
-		if self.resources.count >= self.resourcesCountLimit,
-			let (removedKey, _) = self.resources.randomElement() {
-			self.resources.removeValue(forKey: removedKey)
-		}
-	}
-
-	public func location(endpoint: String, id: String? = nil) -> String? {
-		self.real.location(endpoint: endpoint, id: id)
-	}
-
-	public func resource<R>(at location: String) -> R? where R: Resource {
-		let cachedLocation = self.cachedLocation(for: location)
-
-		if let cached = self.resources[cachedLocation], let resource = cached as? R {
-			return resource
-		}
-
-		if let resource: R = self.real.resource(at: location) {
-			self.checkResourceUsage()
-			self.resources[cachedLocation] = resource
-			return resource
-		}
-
-		return nil
-	}
-	
-	public func locationAreaEncounters(pokemon: Pokemon) -> Set<LocationAreaEncounter>? {
-		if let locationAreaEncounters = self.locationAreaEncounters[pokemon.id] {
-			return locationAreaEncounters
-		}
-
-		if let locationAreaEncounters = self.real.locationAreaEncounters(pokemon: pokemon) {
-			if self.locationAreaEncounters.count >= self.locationAreaEncountersCountLimit,
-				let (removedKey, _) = self.locationAreaEncounters.randomElement() {
-				self.locationAreaEncounters.removeValue(forKey: removedKey)
+				completion($0)
 			}
-
-			self.locationAreaEncounters[pokemon.id] = locationAreaEncounters
-			return locationAreaEncounters
+		} else {
+			completion(.success(self.endpoints))
 		}
-
-		return nil
 	}
 
-	public func resourceList<R>() -> APIResourceList<R>? where R: Resource {
-		guard let location = self.location(endpoint: R.endpoint) else {
-			return nil
+	public func resourceList<R>(_ completion: (Result<APIResourceList<R>, Failure>) -> Void) where R : Resource {
+		self.endpoints {
+			switch $0 {
+			case .success(let endpoints):
+				let endpoint = endpoints[R.endpoint]!
+				if let resourceList = self.resources[endpoint] as? APIResourceList<R> {
+					completion(.success(resourceList))
+				} else {
+					self.realAPI.resourceList({
+						switch $0 {
+						case .success(var resourceList):
+							resourceList.preceded(by: self.resources[endpoint] as? APIResourceList<R>)
+							self.resources[endpoint] = resourceList
+							completion(.success(resourceList))
+						case .failure(let error):
+							completion(.failure(error))
+						}
+					} as (Result<APIResourceList<R>, Failure>) -> Void)
+				}
+			case .failure(let error):
+				completion(.failure(error))
+			}
 		}
-
-		let cachedLocation = self.cachedLocation(for: location)
-		if let cached = self.resources[cachedLocation], let resourceList = cached as? APIResourceList<R> {
-			return resourceList
-		}
-
-		if let resourceList: APIResourceList<R> = self.real.resourceList() {
-			self.checkResourceUsage()
-			self.resources[cachedLocation] = resourceList
-			return resourceList
-		}
-
-		return nil
 	}
 
-	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R: NamedResource {
-		guard let location = self.location(endpoint: R.endpoint) else {
-			return nil
+	public func namedResourceList<R>(_ completion: (Result<NamedAPIResourceList<R>, Failure>) -> Void) where R : NamedResource {
+		self.endpoints {
+			switch $0 {
+			case .success(let endpoints):
+				let endpoint = endpoints[R.endpoint]!
+				if let namedResourceList = self.resources[endpoint] as? NamedAPIResourceList<R> {
+					completion(.success(namedResourceList))
+				} else {
+					self.realAPI.namedResourceList({
+						switch $0 {
+						case .success(var namedResourceList):
+							namedResourceList.preceded(by: self.resources[endpoint] as? NamedAPIResourceList<R>)
+							self.resources[endpoint] = namedResourceList
+							completion(.success(namedResourceList))
+						case .failure(let error):
+							completion(.failure(error))
+						}
+					} as (Result<NamedAPIResourceList<R>, Failure>) -> Void)
+				}
+			case .failure(let error):
+				completion(.failure(error))
+			}
 		}
+	}
 
-		let cachedLocation = self.cachedLocation(for: location)
-		if let cached = self.resources[cachedLocation], let namedResourceList = cached as? NamedAPIResourceList<R> {
-			return namedResourceList
+	public func resource<R>(atLocation location: String, _ completion: (Result<R, Failure>) -> Void) where R : Resource {
+		if let resource = self.resources[location] as? R {
+			completion(.success(resource))
+		} else {
+			self.realAPI.resource(atLocation: location, {
+				switch $0 {
+				case .success(let resource):
+					self.resources[location] = resource
+					completion(.success(resource))
+				case .failure(let error):
+					completion(.failure(error))
+				}
+			} as (Result<R, Failure>) -> Void)
 		}
+	}
 
-		if let namedResourceList: NamedAPIResourceList<R> = self.real.namedResourceList() {
-			self.checkResourceUsage()
-			self.resources[cachedLocation] = namedResourceList
-			return namedResourceList
+	public func locationAreaEncounters(pokemon: Pokemon, _ completion: (Result<Set<LocationAreaEncounter>, Failure>) -> Void) {
+		if let locationAreaEncounters = self.locationAreaEncounters[pokemon.id] {
+			completion(.success(locationAreaEncounters))
+		} else {
+			self.realAPI.locationAreaEncounters(pokemon: pokemon) {
+				switch $0 {
+				case .success(let locationAreaEncounters):
+					self.locationAreaEncounters[pokemon.id] = locationAreaEncounters
+					completion(.success(locationAreaEncounters))
+				case .failure(let error):
+					completion(.failure(error))
+				}
+			}
 		}
-
-		return nil
 	}
 }
+

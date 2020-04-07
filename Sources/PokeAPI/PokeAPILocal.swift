@@ -1,52 +1,55 @@
 import Foundation
 
-public final class PokeAPILocal: PokeAPI {
+public struct PokeAPILocal: PokeAPI {
+	public typealias Failure = Error
+
 	public static let indexFile = "index.json"
 
-	private let url: URL
 	private let decoder: JSONDecoder
-	private let endpoints: [String: String]
+	private let url: URL
 
-	public init(at url: URL, index: String = "api/v2") throws {
-		self.url = url
+	public init(at url: URL) {
 		self.decoder = JSONDecoder()
-		self.endpoints = try self.decoder.decode([String: String].self, from: Data(contentsOf: url.appendingPathComponent(index).appendingPathComponent(PokeAPILocal.indexFile)))
+		self.url = url
 	}
 
-	public func location(endpoint: String, id: String? = nil) -> String? {
-		guard let endpoint = self.endpoints[endpoint] else {
-			return nil
+	public func endpoints(_ completion: (Result<[String : String], Failure>) -> Void) {
+		completion(Result {
+			try self.decoder.decode([String : String].self,
+				from: Data(contentsOf: self.url.appendingPathComponent("api/v2").appendingPathComponent(Self.indexFile)))
+		})
+	}
+
+	public func resourceList<R>(_ completion: (Result<APIResourceList<R>, Failure>) -> Void) where R : Resource {
+		self.endpoints { endpointsResult in
+			completion(Result {
+				try self.decoder.decode(APIResourceList<R>.self,
+					from: Data(contentsOf: self.url.appendingPathComponent(endpointsResult.get()[R.endpoint]!).appendingPathComponent(Self.indexFile)))
+			})
 		}
+	}
 
-		if let id = id {
-			return endpoint + id
-		} else {
-			return endpoint
+	public func namedResourceList<R>(_ completion: (Result<NamedAPIResourceList<R>, Failure>) -> Void) where R : NamedResource {
+		self.endpoints { endpointsResult in
+			completion(Result {
+				try self.decoder.decode(NamedAPIResourceList<R>.self,
+					from: Data(contentsOf: self.url.appendingPathComponent(endpointsResult.get()[R.endpoint]!).appendingPathComponent(Self.indexFile)))
+			})
 		}
 	}
 
-	public func resource<R>(at location: String) -> R? where R: Resource {
-		try? self.decoder.decode(R.self, from: Data(contentsOf: self.url.appendingPathComponent(location).appendingPathComponent(PokeAPILocal.indexFile)))
+	public func resource<R>(atLocation location: String, _ completion: (Result<R, Failure>) -> Void) where R : Resource {
+		completion(Result {
+			try self.decoder.decode(R.self,
+				from: Data(contentsOf: self.url.appendingPathComponent(location).appendingPathComponent(Self.indexFile)))
+		})
 	}
 
-	public func locationAreaEncounters(pokemon: Pokemon) -> Set<LocationAreaEncounter>? {
-		try? self.decoder.decode(Set<LocationAreaEncounter>.self, from: Data(contentsOf: self.url.appendingPathComponent(pokemon.locationAreaEncounters).appendingPathComponent(PokeAPILocal.indexFile)))
-	}
-
-	public func resourceList<R>() -> APIResourceList<R>? where R: Resource {
-		guard let endpoint = self.endpoints[R.endpoint] else {
-			return nil
-		}
-
-		return try? self.decoder.decode(APIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(endpoint).appendingPathComponent(PokeAPILocal.indexFile)))
-	}
-
-	public func namedResourceList<R>() -> NamedAPIResourceList<R>? where R: NamedResource {
-		guard let endpoint = self.endpoints[R.endpoint] else {
-			return nil
-		}
-
-		return try? self.decoder.decode(NamedAPIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(endpoint).appendingPathComponent(PokeAPILocal.indexFile)))
+	public func locationAreaEncounters(pokemon: Pokemon, _ completion: (Result<Set<LocationAreaEncounter>, Failure>) -> Void) {
+		completion(Result {
+			try self.decoder.decode(Set<LocationAreaEncounter>.self,
+				from: Data(contentsOf: self.url.appendingPathComponent(pokemon.locationAreaEncounters).appendingPathComponent(Self.indexFile)))
+		})
 	}
 }
 
