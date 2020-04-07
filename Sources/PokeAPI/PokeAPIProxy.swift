@@ -21,22 +21,20 @@ fileprivate extension NamedAPIResourceList {
 	}
 }
 
-public final class PokeAPIProxy<RealAPI : PokeAPI> : PokeAPI {
-	public typealias Failure = RealAPI.Failure
-
-	private let realAPI : RealAPI
+public final class PokeAPIProxy : PokeAPI {
+	private let realAPI : PokeAPI
 	private var endpoints : [String : String]
 	private var resources : [String : Any]
 	private var locationAreaEncounters : [Int : Set<LocationAreaEncounter>]
 
-	public init(realAPI: RealAPI) {
+	public init(realAPI: PokeAPI) {
 		self.realAPI = realAPI
 		self.endpoints = [:]
 		self.resources = [:]
 		self.locationAreaEncounters = [:]
 	}
 
-	public func endpoints(_ completion: (Result<[String : String], Failure>) -> Void) {
+	public func endpoints(_ completion: (Result<[String : String], Error>) -> Void) {
 		if self.endpoints.isEmpty {
 			self.realAPI.endpoints {
 				switch $0 {
@@ -53,7 +51,7 @@ public final class PokeAPIProxy<RealAPI : PokeAPI> : PokeAPI {
 		}
 	}
 
-	public func resourceList<R>(_ completion: (Result<APIResourceList<R>, Failure>) -> Void) where R : Resource {
+	public func resourceList<R>(_ completion: (Result<APIResourceList<R>, Error>) -> Void) where R : Resource {
 		self.endpoints {
 			switch $0 {
 			case .success(let endpoints):
@@ -70,7 +68,7 @@ public final class PokeAPIProxy<RealAPI : PokeAPI> : PokeAPI {
 						case .failure(let error):
 							completion(.failure(error))
 						}
-					} as (Result<APIResourceList<R>, Failure>) -> Void)
+					} as (Result<APIResourceList<R>, Error>) -> Void)
 				}
 			case .failure(let error):
 				completion(.failure(error))
@@ -78,7 +76,7 @@ public final class PokeAPIProxy<RealAPI : PokeAPI> : PokeAPI {
 		}
 	}
 
-	public func namedResourceList<R>(_ completion: (Result<NamedAPIResourceList<R>, Failure>) -> Void) where R : NamedResource {
+	public func namedResourceList<R>(_ completion: (Result<NamedAPIResourceList<R>, Error>) -> Void) where R : NamedResource {
 		self.endpoints {
 			switch $0 {
 			case .success(let endpoints):
@@ -95,7 +93,7 @@ public final class PokeAPIProxy<RealAPI : PokeAPI> : PokeAPI {
 						case .failure(let error):
 							completion(.failure(error))
 						}
-					} as (Result<NamedAPIResourceList<R>, Failure>) -> Void)
+					} as (Result<NamedAPIResourceList<R>, Error>) -> Void)
 				}
 			case .failure(let error):
 				completion(.failure(error))
@@ -103,7 +101,7 @@ public final class PokeAPIProxy<RealAPI : PokeAPI> : PokeAPI {
 		}
 	}
 
-	public func resource<R>(atLocation location: String, _ completion: (Result<R, Failure>) -> Void) where R : Resource {
+	public func resource<R>(atLocation location: String, _ completion: (Result<R, Error>) -> Void) where R : Resource {
 		if let resource = self.resources[location] as? R {
 			completion(.success(resource))
 		} else {
@@ -115,11 +113,11 @@ public final class PokeAPIProxy<RealAPI : PokeAPI> : PokeAPI {
 				case .failure(let error):
 					completion(.failure(error))
 				}
-			} as (Result<R, Failure>) -> Void)
+			} as (Result<R, Error>) -> Void)
 		}
 	}
 
-	public func locationAreaEncounters(pokemon: Pokemon, _ completion: (Result<Set<LocationAreaEncounter>, Failure>) -> Void) {
+	public func locationAreaEncounters(pokemon: Pokemon, _ completion: (Result<Set<LocationAreaEncounter>, Error>) -> Void) {
 		if let locationAreaEncounters = self.locationAreaEncounters[pokemon.id] {
 			completion(.success(locationAreaEncounters))
 		} else {

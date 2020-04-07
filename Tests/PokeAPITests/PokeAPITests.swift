@@ -15,12 +15,12 @@ final class PokeAPITests: XCTestCase {
 								default:
 									break
 							}
-						} as (Result<R, P.Failure>) -> Void)
+						} as (Result<R, Error>) -> Void)
 					}
 				case .failure(let error):
 					XCTFail("Unable to access \(R.self) resource list: \(error)")
 			}
-		} as (Result<APIResourceList<R>, P.Failure>) -> Void)
+		} as (Result<APIResourceList<R>, Error>) -> Void)
 	}
 
 	func testNamedResource<R, P>(pokeAPI: P, _ resourceType: R.Type) where R: NamedResource, P: PokeAPI {
@@ -35,12 +35,12 @@ final class PokeAPITests: XCTestCase {
 								default:
 									break
 							}
-						} as (Result<R, P.Failure>) -> Void)
+						} as (Result<R, Error>) -> Void)
 					}
 				case .failure(let error):
 					XCTFail("Unable to access \(R.self) resource list: \(error)")
 			}
-		} as (Result<NamedAPIResourceList<R>, P.Failure>) -> Void)
+		} as (Result<NamedAPIResourceList<R>, Error>) -> Void)
 	}
 
 	func testPokeAPI<P>(pokeAPI: P) where P : PokeAPI {
