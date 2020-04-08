@@ -34,7 +34,7 @@ public final class PokeAPIProxy : PokeAPI {
 		self.locationAreaEncounters = [:]
 	}
 
-	public func endpoints(_ completion: (Result<[String : String], Error>) -> Void) {
+	public func endpoints(_ completion: @escaping (Result<[String : String], Error>) -> Void) {
 		if self.endpoints.isEmpty {
 			self.realAPI.endpoints {
 				switch $0 {
@@ -51,7 +51,7 @@ public final class PokeAPIProxy : PokeAPI {
 		}
 	}
 
-	public func resourceList<R>(_ completion: (Result<APIResourceList<R>, Error>) -> Void) where R : Resource {
+	public func resourceList<R>(_ completion: @escaping (Result<APIResourceList<R>, Error>) -> Void) where R : Resource {
 		self.endpoints {
 			switch $0 {
 			case .success(let endpoints):
@@ -76,7 +76,7 @@ public final class PokeAPIProxy : PokeAPI {
 		}
 	}
 
-	public func namedResourceList<R>(_ completion: (Result<NamedAPIResourceList<R>, Error>) -> Void) where R : NamedResource {
+	public func namedResourceList<R>(_ completion: @escaping (Result<NamedAPIResourceList<R>, Error>) -> Void) where R : NamedResource {
 		self.endpoints {
 			switch $0 {
 			case .success(let endpoints):
@@ -101,7 +101,7 @@ public final class PokeAPIProxy : PokeAPI {
 		}
 	}
 
-	public func resource<R>(atLocation location: String, _ completion: (Result<R, Error>) -> Void) where R : Resource {
+	public func resource<R>(atLocation location: String, _ completion: @escaping (Result<R, Error>) -> Void) where R : Resource {
 		if let resource = self.resources[location] as? R {
 			completion(.success(resource))
 		} else {
@@ -117,7 +117,7 @@ public final class PokeAPIProxy : PokeAPI {
 		}
 	}
 
-	public func locationAreaEncounters(pokemon: Pokemon, _ completion: (Result<Set<LocationAreaEncounter>, Error>) -> Void) {
+	public func locationAreaEncounters(pokemon: Pokemon, _ completion: @escaping (Result<Set<LocationAreaEncounter>, Error>) -> Void) {
 		if let locationAreaEncounters = self.locationAreaEncounters[pokemon.id] {
 			completion(.success(locationAreaEncounters))
 		} else {

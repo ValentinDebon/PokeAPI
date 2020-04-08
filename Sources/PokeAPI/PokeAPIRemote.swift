@@ -1,7 +1,24 @@
 import Foundation
+
+#if canImport(FoundationNetworking)
 import FoundationNetworking
+#endif
 
 public struct PokeAPIRemote : PokeAPI {
+	#if os(Linux)
+	public static func makeURL() -> URL? {
+		nil
+	}
+
+	public static func makeCache(at url: URL? = PokeAPIRemote.makeURL()) -> URLCache {
+		URLCache()
+	}
+
+	public static func makeSession(withIdentifier identifier: String = "PokeAPI",
+								   cachedWith urlCache: URLCache? = PokeAPIRemote.makeCache()) -> URLSession {
+		URLSession(configuration: URLSessionConfiguration.default)
+	}
+	#else
 	public static func makeURL() -> URL? {
 		try? FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
 	}
@@ -12,46 +29,119 @@ public struct PokeAPIRemote : PokeAPI {
 
 	public static func makeSession(withIdentifier identifier: String = "PokeAPI",
 								   cachedWith urlCache: URLCache? = PokeAPIRemote.makeCache()) -> URLSession {
-		#if os(Linux)
-		let sessionConfiguration = URLSessionConfiguration.default
-		#else // The following are unavailable outside of Darwin platforms
 		let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: identifier)
 		sessionConfiguration.networkServiceType = .responsiveData
 		sessionConfiguration.urlCache = urlCache
 		sessionConfiguration.requestCachePolicy = .returnCacheDataElseLoad
-		#endif
 
 		return URLSession(configuration: sessionConfiguration)
 	}
+	#endif
 
 	private let session: URLSession
 	private let decoder: JSONDecoder
+	private let endpoints: String
 	private let url: URL
 
-	public init(at url: URL, session: URLSession = PokeAPIRemote.makeSession()) {
+	public init(at url: URL, endpoints: String = "api/v2", session: URLSession = PokeAPIRemote.makeSession()) {
 		self.session = session
 		self.decoder = JSONDecoder()
+		self.endpoints = endpoints
 		self.url = url
 	}
 
-	public func endpoints(_ completion: (Result<[String : String], Error>) -> Void) {
-		fatalError("unimplemented")
+	private func completeResourceList<R>(at url: URL, _ completion: @escaping (Result<APIResourceList<R>, Error>) -> Void) where R : Resource {
+		self.session.dataTask(with: url) { data, urlResponse, error in
+			completion(Result {
+				if let error = error {
+					throw error
+				}
+
+				let resourceList = try self.decoder.decode(APIResourceList<R>.self, from: data ?? Data())
+				
+				if let next = resourceList.next {
+					self.completeResourceList(at: URL(string: next)!, completion)
+				}
+
+				return resourceList
+			})
+		}.resume()
 	}
 
-	public func resourceList<R>(_ completion: (Result<APIResourceList<R>, Error>) -> Void) where R : Resource {
-		fatalError("unimplemented")
+	private func completeNamedResourceList<R>(at url: URL, _ completion: @escaping (Result<NamedAPIResourceList<R>, Error>) -> Void) where R : NamedResource {
+		self.session.dataTask(with: url) { data, urlResponse, error in
+			completion(Result {
+				if let error = error {
+					throw error
+				}
+
+				let namedResourceList = try self.decoder.decode(NamedAPIResourceList<R>.self, from: data ?? Data())
+				
+				if let next = namedResourceList.next {
+					self.completeNamedResourceList(at: URL(string: next)!, completion)
+				}
+
+				return namedResourceList
+			})
+		}.resume()
 	}
 
-	public func namedResourceList<R>(_ completion: (Result<NamedAPIResourceList<R>, Error>) -> Void) where R : NamedResource {
-		fatalError("unimplemented")
+	public func endpoints(_ completion: @escaping (Result<[String : String], Error>) -> Void) {
+		self.session.dataTask(with: self.url.appendingPathComponent(self.endpoints)) { data, urlResponse, error in
+			completion(Result {
+				if let error = error {
+					throw error
+				}
+
+				return try self.decoder.decode([String : String].self, from: data ?? Data())
+			})
+		}.resume()
 	}
 
-	public func resource<R>(atLocation location: String, _ completion: (Result<R, Error>) -> Void) where R : Resource {
-		fatalError("unimplemented")
+	public func resourceList<R>(_ completion: @escaping (Result<APIResourceList<R>, Error>) -> Void) where R : Resource {
+		self.endpoints {
+			switch $0 {
+			case .success(let endpoints):
+				self.completeResourceList(at: URL(string: endpoints[R.endpoint]!)!, completion)
+			case .failure(let error):
+				completion(.failure(error))
+			}
+		}
 	}
 
-	public func locationAreaEncounters(pokemon: Pokemon, _ completion: (Result<Set<LocationAreaEncounter>, Error>) -> Void) {
-		fatalError("unimplemented")
+	public func namedResourceList<R>(_ completion: @escaping (Result<NamedAPIResourceList<R>, Error>) -> Void) where R : NamedResource {
+		self.endpoints {
+			switch $0 {
+			case .success(let endpoints):
+				self.completeNamedResourceList(at: URL(string: endpoints[R.endpoint]!)!, completion)
+			case .failure(let error):
+				completion(.failure(error))
+			}
+		}
+	}
+
+	public func resource<R>(atLocation location: String, _ completion: @escaping (Result<R, Error>) -> Void) where R : Resource {
+		self.session.dataTask(with: URL(string: location)!) { data, urlResponse, error in
+			completion(Result {
+				if let error = error {
+					throw error
+				}
+
+				return try self.decoder.decode(R.self, from: data ?? Data())
+			})
+		}.resume()
+	}
+
+	public func locationAreaEncounters(pokemon: Pokemon, _ completion: @escaping (Result<Set<LocationAreaEncounter>, Error>) -> Void) {
+		self.session.dataTask(with: URL(string: pokemon.locationAreaEncounters)!) { data, urlResponse, error in
+			completion(Result {
+				if let error = error {
+					throw error
+				}
+
+				return try self.decoder.decode(Set<LocationAreaEncounter>.self, from: data ?? Data())
+			})
+		}.resume()
 	}
 }
 

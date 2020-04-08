@@ -1,12 +1,12 @@
 #  PokeAPI
 
-Swift binding for the PokeAPI.
+Swift binding for the PokeAPI. Asynchronous and type-safe
 
 ## Progress
 
 - [x] PokeAPI Proxy
 - [x] PokeAPI static content
-- [ ] PokeAPI online content - needs delegation and asynchronous answer system
+- [x] PokeAPI online content
 
 - [x] Berries
 - [x] Contests
