@@ -7,11 +7,19 @@ import FoundationNetworking
 public struct PokeAPIRemote : PokeAPI {
 	#if os(Linux)
 	public static func makeURL() -> URL? {
-		nil
+		guard let userCache = getenv("XDG_CACHE_HOME"), strlen(userCache) != 0 else {
+			guard let home = getenv("HOME"), strlen(home) != 0 else {
+				return nil
+			}
+
+			return URL(fileURLWithPath: "\(home)/.cache")
+		}
+
+		return URL(fileURLWithPath: String(cString: userCache))
 	}
 
 	public static func makeCache(at url: URL? = PokeAPIRemote.makeURL()) -> URLCache {
-		URLCache()
+		URLCache(memoryCapacity: 50 * 1_048_576, diskCapacity: 150 * 1_048_576, diskPath: url?.path)
 	}
 
 	public static func makeSession(withIdentifier identifier: String = "PokeAPI",
@@ -24,7 +32,7 @@ public struct PokeAPIRemote : PokeAPI {
 	}
 
 	public static func makeCache(at url: URL? = PokeAPIRemote.makeURL()) -> URLCache {
-		URLCache(memoryCapacity: 50 * 1_048_576, diskCapacity: 150 * 1_048_576, diskPath: url?.path)
+		URLCache(memoryCapacity: 50 * 1_048_576, diskCapacity: 150 * 1_048_576, directory: url)
 	}
 
 	public static func makeSession(withIdentifier identifier: String = "PokeAPI",
