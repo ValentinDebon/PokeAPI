@@ -38,7 +38,7 @@ public struct Move: NamedResource {
 	public var contestCombos: ContestComboSets?
 	public var contestType: NamedAPIResource<ContestType>?
 	public var contestEffect: APIResource<ContestEffect>?
-	public var damageClass: NamedAPIResource<MoveDamageClass>
+	public var damageClass: NamedAPIResource<MoveDamageClass>?
 	public var effectEntries: Set<VerboseEffect>
 	public var effectChanges: Set<AbilityEffectChange>
 	public var flavorTextEntries: Set<MoveFlavorText>
