@@ -32,11 +32,7 @@ public struct PokeAPIRemote : PokeAPI {
 	}
 
 	public static func makeCache(at url: URL? = PokeAPIRemote.makeURL()) -> URLCache {
-		if #available(iOS 13.0, *) {
-			return URLCache(memoryCapacity: 50 * 1_048_576, diskCapacity: 150 * 1_048_576, directory: url)
-		} else {
-			return URLCache()
-		}
+		URLCache(memoryCapacity: 50 * 1_048_576, diskCapacity: 150 * 1_048_576, directory: url)
 	}
 
 	public static func makeSession(withIdentifier identifier: String = "PokeAPI",
@@ -62,24 +58,36 @@ public struct PokeAPIRemote : PokeAPI {
 		self.url = url
 	}
 
+	private func resourceListURL<R>(at location: String?, for resourceType: R.Type) async throws -> URL where R : Resource {
+		let url : URL
+
+		if let location = location {
+			url = URL(string: location)!
+		} else {
+			url = try await URL(string: self.endpoints()[R.endpoint]!)!
+		}
+
+		return url
+	}
+
 	public func endpoints() async throws -> [String : String] {
 		try await self.decoder.decode([String : String].self, from: self.session.data(from: self.url.appendingPathComponent(self.endpoints)).0)
 	}
 
-	public func resourceList<R>() async throws -> APIResourceList<R> where R : Resource {
-		try await self.decoder.decode(APIResourceList<R>.self, from: self.session.data(from: self.url.appendingPathComponent(self.endpoints()[R.endpoint]!)).0)
+	public func resourceList<R>(at location: String?) async throws -> APIResourceList<R> where R : Resource {
+		try await self.decoder.decode(APIResourceList<R>.self, from: self.session.data(from: self.resourceListURL(at: location, for: R.self)).0)
 	}
 
-	public func namedResourceList<R>() async throws -> NamedAPIResourceList<R> where R : NamedResource {
-		try await self.decoder.decode(NamedAPIResourceList<R>.self, from: self.session.data(from: self.url.appendingPathComponent(self.endpoints()[R.endpoint]!)).0)
+	public func namedResourceList<R>(at location: String?) async throws -> NamedAPIResourceList<R> where R : NamedResource {
+		try await self.decoder.decode(NamedAPIResourceList<R>.self, from: self.session.data(from: self.resourceListURL(at: location, for: R.self)).0)
 	}
 
 	public func resource<R>(at location: String) async throws -> R where R : Resource {
-		try await self.decoder.decode(R.self, from: self.session.data(from: self.url.appendingPathComponent(location)).0)
+		try await self.decoder.decode(R.self, from: self.session.data(from: URL(string: location)!).0)
 	}
 
 	public func locationAreaEncounters(pokemon: Pokemon) async throws -> Set<LocationAreaEncounter> {
-		try await self.decoder.decode(Set<LocationAreaEncounter>.self, from: self.session.data(from: self.url.appendingPathComponent(pokemon.locationAreaEncounters)).0)
+		try await self.decoder.decode(Set<LocationAreaEncounter>.self, from: self.session.data(from: URL(string: pokemon.locationAreaEncounters)!).0)
 	}
 }
 

@@ -5,11 +5,16 @@ final class PokeAPITests: XCTestCase {
 
 	func testResource<R, P>(pokeAPI: P, _ resourceType: R.Type) async where R: Resource, P: PokeAPI {
 		do {
-			let resourceList : APIResourceList<R> = try await pokeAPI.resourceList()
+			var next : String? = nil
+			
+			repeat {
+				let resourceList : APIResourceList<R> = try await pokeAPI.resourceList(at: next)
+				next = resourceList.next
 
-			for result in resourceList.results {
-				let _ : R = try await pokeAPI.resource(at: result.url)
-			}
+				for result in resourceList.results {
+					let _ : R = try await pokeAPI.resource(at: result.url)
+				}
+			} while next != nil
 		} catch {
 			XCTFail("Unable to access \(R.self) resource list: \(error)")
 		}
@@ -17,11 +22,17 @@ final class PokeAPITests: XCTestCase {
 
 	func testNamedResource<R, P>(pokeAPI: P, _ resourceType: R.Type) async where R: NamedResource, P: PokeAPI {
 		do {
-			let namedResourceList : NamedAPIResourceList<R> = try await pokeAPI.namedResourceList()
+			var next : String? = nil
 
-			for result in namedResourceList.results {
-				let _ : R = try await pokeAPI.resource(at: result.url)
-			}
+			repeat {
+				let namedResourceList : NamedAPIResourceList<R> = try await pokeAPI.namedResourceList()
+				next = namedResourceList.next
+
+				for result in namedResourceList.results {
+					let _ : R = try await pokeAPI.resource(at: result.url)
+				}
+			} while next != nil
+
 		} catch {
 			XCTFail("Unable to access \(R.self) resource list: \(error)")
 		}
@@ -98,8 +109,13 @@ final class PokeAPITests: XCTestCase {
 		await testPokeAPI(pokeAPI: PokeAPIProxy(realAPI: PokeAPILocal(at: url)))
 	}
 
+	func testPokeAPIRemote() async {
+		//await testPokeAPI(pokeAPI: PokeAPIRemote(at: URL(string: "https://pokeapi.co")!, session: URLSession.shared))
+	}
+
 	static var allTests = [
 		("testPokeAPILocal", testPokeAPILocal),
 		("testPokeAPIProxy", testPokeAPIProxy),
+		("testPokeAPIRemote", testPokeAPIRemote),
 	]
 }

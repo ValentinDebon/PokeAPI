@@ -21,8 +21,14 @@ public final class PokeAPIProxy : PokeAPI {
 		return self.endpoints
 	}
 
-	public func resourceList<R>() async throws -> APIResourceList<R> where R : Resource {
-		let endpoint = try await self.endpoints()[R.endpoint]!
+	public func resourceList<R>(at location: String?) async throws -> APIResourceList<R> where R : Resource {
+		let endpoint : String
+		
+		if let location = location {
+			endpoint = location
+		} else {
+			endpoint = try await self.endpoints()[R.endpoint]!
+		}
 
 		guard let resourceList = self.resources[endpoint] as? APIResourceList<R> else {
 			let resourceList : APIResourceList<R> = try await self.realAPI.resourceList()
@@ -33,8 +39,14 @@ public final class PokeAPIProxy : PokeAPI {
 		return resourceList
 	}
 
-	public func namedResourceList<R>() async throws -> NamedAPIResourceList<R> where R : NamedResource {
-		let endpoint = try await self.endpoints()[R.endpoint]!
+	public func namedResourceList<R>(at location: String?) async throws -> NamedAPIResourceList<R> where R : NamedResource {
+		let endpoint : String
+		
+		if let location = location {
+			endpoint = location
+		} else {
+			endpoint = try await self.endpoints()[R.endpoint]!
+		}
 
 		guard let namedResourceList = self.resources[endpoint] as? NamedAPIResourceList<R> else {
 			let namedResourceList : NamedAPIResourceList<R> = try await self.realAPI.namedResourceList()

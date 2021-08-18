@@ -13,16 +13,30 @@ public struct PokeAPILocal: PokeAPI {
 		self.url = url
 	}
 
+	private func resourceListURL<R>(at location: String?, for resourceType: R.Type) async throws -> URL where R : Resource {
+		let url : URL
+
+		if let location = location {
+			url = URL(string: location)!
+		} else {
+			url = try await self.url
+				.appendingPathComponent(self.endpoints()[R.endpoint]!)
+				.appendingPathComponent(Self.indexFile)
+		}
+
+		return url
+	}
+
 	public func endpoints() async throws -> [String : String] {
 		try self.decoder.decode([String : String].self, from: Data(contentsOf: self.url.appendingPathComponent(self.endpoints).appendingPathComponent(Self.indexFile)))
 	}
 
-	public func resourceList<R>() async throws -> APIResourceList<R> where R : Resource {
-		try await self.decoder.decode(APIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(self.endpoints()[R.endpoint]!).appendingPathComponent(Self.indexFile)))
+	public func resourceList<R>(at location: String?) async throws -> APIResourceList<R> where R : Resource {
+		try await self.decoder.decode(APIResourceList<R>.self, from: Data(contentsOf: self.resourceListURL(at: location, for: R.self)))
 	}
 
-	public func namedResourceList<R>() async throws -> NamedAPIResourceList<R> where R : NamedResource {
-		try await self.decoder.decode(NamedAPIResourceList<R>.self, from: Data(contentsOf: self.url.appendingPathComponent(self.endpoints()[R.endpoint]!).appendingPathComponent(Self.indexFile)))
+	public func namedResourceList<R>(at location: String?) async throws -> NamedAPIResourceList<R> where R : NamedResource {
+		try await self.decoder.decode(NamedAPIResourceList<R>.self, from: Data(contentsOf: self.resourceListURL(at: location, for: R.self)))
 	}
 
 	public func resource<R>(at location: String) async throws -> R where R : Resource {
