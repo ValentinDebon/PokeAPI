@@ -1,26 +1,4 @@
 
-fileprivate extension APIResourceList {
-	mutating func preceded(by resourceList: Self?) {
-		self.previous = nil
-		self.next = nil
-
-		if let previousResults = resourceList?.results {
-			self.results.formUnion(previousResults)
-		}
-	}
-}
-
-fileprivate extension NamedAPIResourceList {
-	mutating func preceded(by resourceList: Self?) {
-		self.previous = nil
-		self.next = nil
-
-		if let previousResults = resourceList?.results {
-			self.results.formUnion(previousResults)
-		}
-	}
-}
-
 public final class PokeAPIProxy : PokeAPI {
 	private let realAPI : PokeAPI
 	private var endpoints : [String : String]
@@ -34,103 +12,59 @@ public final class PokeAPIProxy : PokeAPI {
 		self.locationAreaEncounters = [:]
 	}
 
-	public func endpoints(_ completion: @escaping (Result<[String : String], Error>) -> Void) {
+	public func endpoints() async throws -> [String : String] {
+
 		if self.endpoints.isEmpty {
-			self.realAPI.endpoints {
-				switch $0 {
-				case .success(let endpoints):
-					self.endpoints = endpoints
-				default:
-					break
-				}
-
-				completion($0)
-			}
-		} else {
-			completion(.success(self.endpoints))
+			self.endpoints = try await self.realAPI.endpoints()
 		}
+
+		return self.endpoints
 	}
 
-	public func resourceList<R>(_ completion: @escaping (Result<APIResourceList<R>, Error>) -> Void) where R : Resource {
-		self.endpoints {
-			switch $0 {
-			case .success(let endpoints):
-				let endpoint = endpoints[R.endpoint]!
-				if let resourceList = self.resources[endpoint] as? APIResourceList<R> {
-					completion(.success(resourceList))
-				} else {
-					self.realAPI.resourceList({
-						switch $0 {
-						case .success(var resourceList):
-							resourceList.preceded(by: self.resources[endpoint] as? APIResourceList<R>)
-							self.resources[endpoint] = resourceList
-							completion(.success(resourceList))
-						case .failure(let error):
-							completion(.failure(error))
-						}
-					} as (Result<APIResourceList<R>, Error>) -> Void)
-				}
-			case .failure(let error):
-				completion(.failure(error))
-			}
+	public func resourceList<R>() async throws -> APIResourceList<R> where R : Resource {
+		let endpoint = try await self.endpoints()[R.endpoint]!
+
+		guard let resourceList = self.resources[endpoint] as? APIResourceList<R> else {
+			let resourceList : APIResourceList<R> = try await self.realAPI.resourceList()
+			self.resources[endpoint] = resourceList
+			return resourceList
 		}
+
+		return resourceList
 	}
 
-	public func namedResourceList<R>(_ completion: @escaping (Result<NamedAPIResourceList<R>, Error>) -> Void) where R : NamedResource {
-		self.endpoints {
-			switch $0 {
-			case .success(let endpoints):
-				let endpoint = endpoints[R.endpoint]!
-				if let namedResourceList = self.resources[endpoint] as? NamedAPIResourceList<R> {
-					completion(.success(namedResourceList))
-				} else {
-					self.realAPI.namedResourceList({
-						switch $0 {
-						case .success(var namedResourceList):
-							namedResourceList.preceded(by: self.resources[endpoint] as? NamedAPIResourceList<R>)
-							self.resources[endpoint] = namedResourceList
-							completion(.success(namedResourceList))
-						case .failure(let error):
-							completion(.failure(error))
-						}
-					} as (Result<NamedAPIResourceList<R>, Error>) -> Void)
-				}
-			case .failure(let error):
-				completion(.failure(error))
-			}
+	public func namedResourceList<R>() async throws -> NamedAPIResourceList<R> where R : NamedResource {
+		let endpoint = try await self.endpoints()[R.endpoint]!
+
+		guard let namedResourceList = self.resources[endpoint] as? NamedAPIResourceList<R> else {
+			let namedResourceList : NamedAPIResourceList<R> = try await self.realAPI.namedResourceList()
+			self.resources[endpoint] = namedResourceList
+			return namedResourceList
 		}
+
+		return namedResourceList
 	}
 
-	public func resource<R>(atLocation location: String, _ completion: @escaping (Result<R, Error>) -> Void) where R : Resource {
-		if let resource = self.resources[location] as? R {
-			completion(.success(resource))
-		} else {
-			self.realAPI.resource(atLocation: location, {
-				switch $0 {
-				case .success(let resource):
-					self.resources[location] = resource
-					completion(.success(resource))
-				case .failure(let error):
-					completion(.failure(error))
-				}
-			} as (Result<R, Error>) -> Void)
+	public func resource<R>(at location: String) async throws -> R where R : Resource {
+
+		guard let resource = self.resources[location] as? R else {
+			let resource : R = try await self.realAPI.resource(at: location)
+			self.resources[location] = resource
+			return resource
 		}
+
+		return resource
 	}
 
-	public func locationAreaEncounters(pokemon: Pokemon, _ completion: @escaping (Result<Set<LocationAreaEncounter>, Error>) -> Void) {
-		if let locationAreaEncounters = self.locationAreaEncounters[pokemon.id] {
-			completion(.success(locationAreaEncounters))
-		} else {
-			self.realAPI.locationAreaEncounters(pokemon: pokemon) {
-				switch $0 {
-				case .success(let locationAreaEncounters):
-					self.locationAreaEncounters[pokemon.id] = locationAreaEncounters
-					completion(.success(locationAreaEncounters))
-				case .failure(let error):
-					completion(.failure(error))
-				}
-			}
+	public func locationAreaEncounters(pokemon: Pokemon) async throws -> Set<LocationAreaEncounter> {
+
+		guard let locationAreaEncounters = self.locationAreaEncounters[pokemon.id] else {
+			let locationAreaEncounters = try await self.realAPI.locationAreaEncounters(pokemon: pokemon)
+			self.locationAreaEncounters[pokemon.id] = locationAreaEncounters
+			return locationAreaEncounters
 		}
+
+		return locationAreaEncounters
 	}
 }
 

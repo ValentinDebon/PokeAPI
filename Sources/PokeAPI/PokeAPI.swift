@@ -1,9 +1,8 @@
 
 public protocol PokeAPI {
-	func endpoints(_ completion: @escaping (Result<[String : String], Error>) -> Void)
-	func resourceList<R>(_ completion: @escaping (Result<APIResourceList<R>, Error>) -> Void) where R : Resource
-	func namedResourceList<R>(_ completion: @escaping (Result<NamedAPIResourceList<R>, Error>) -> Void) where R : NamedResource
-	func resource<R>(atLocation location: String, _ completion: @escaping (Result<R, Error>) -> Void) where R : Resource
-	func locationAreaEncounters(pokemon: Pokemon, _ completion: @escaping (Result<Set<LocationAreaEncounter>, Error>) -> Void)
+	func endpoints() async throws -> [String : String]
+	func resourceList<R>() async throws -> APIResourceList<R> where R : Resource
+	func namedResourceList<R>() async throws -> NamedAPIResourceList<R> where R : NamedResource
+	func resource<R>(at location: String) async throws -> R where R : Resource
+	func locationAreaEncounters(pokemon: Pokemon) async throws -> Set<LocationAreaEncounter>
 }
-
